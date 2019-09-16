@@ -1,0 +1,24 @@
+﻿//キーボードマクロのファイル
+S_ReplaceAll('^ +', '', 44);	// すべて置換
+S_ReDraw(0);	// 再描画
+
+S_ReplaceAll('^.*: *"', '', 44);	// すべて置換
+S_ReDraw(0);	// 再描画
+
+S_ReplaceAll('",\\r\\n', '\\t', 44);	// すべて置換
+S_ReDraw(0);	// 再描画
+
+S_ReplaceAll('" *:.*\\r\\n', '\\t', 44);	// すべて置換
+S_ReDraw(0);	// 再描画
+
+S_ReplaceAll('"', '', 44);	// すべて置換
+S_ReDraw(0);	// 再描画
+
+S_ReplaceAll('\\},{0,1}\\r\\n', '', 44);	// すべて置換
+S_ReDraw(0);	// 再描画
+
+S_ReplaceAll('\\{\\r\\n', '', 44);	// すべて置換
+S_ReDraw(0);	// 再描画
+
+S_ReplaceAll('\\}$', '', 44);	// すべて置換
+S_ReDraw(0);	// 再描画
