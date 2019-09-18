@@ -63,7 +63,6 @@ file.write(outstr)
 file.close()
 
 mytraversed = ""
-
 def clb(obj, hie):
     global mytraversed
     str_hie = ""

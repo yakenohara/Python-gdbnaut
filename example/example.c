@@ -1,6 +1,7 @@
 /*
 gcc example.c -o example.exe -g -O0
 gdb example.exe -x example.py
+py .\exampletrav.py
 
 sys.path.append('.')
 import gdbnaut

@@ -24,7 +24,6 @@ GDB utility module
 """
 
 import gdb
-import copy
 
 class SymbolInfo:
     """
@@ -121,7 +120,7 @@ class SymbolInfo:
                 obj_scanned["identifier"] = int_index_of_target
                 obarr_scanned.append(obj_scanned)
 
-            int_target_address = int(gdbval_specified.address)
+            int_target_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
             
             obj_scanning = {
                 "identifier":None, # caller で設定する
@@ -136,7 +135,7 @@ class SymbolInfo:
 
         elif(gdbtype_specified.code == gdb.TYPE_CODE_PTR): # pointer の場合
 
-            int_target_address = int(gdbval_specified.address)
+            int_target_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
             
             obj_scanning = {
                 "identifier":None, # caller で設定する
@@ -145,7 +144,7 @@ class SymbolInfo:
                 "type_code":gdbtype_specified.code,
                 "type_declared":str(gdbtype_specified),
                 "type_primitive":self._func_force_unq(str(gdbtype_specified)), # todo <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
-                "value":int(gdbval_specified)
+                "value":int(gdbval_specified.cast(self._gdbtyp_address_length_uint))
             }
 
             obj_scanning["dump"] = self._func_dump_memory(int_target_address, gdbtype_specified.sizeof)
@@ -180,7 +179,7 @@ class SymbolInfo:
 
                     obj_members = {}
 
-                    int_target_address = int(gdbval_specified.address)
+                    int_target_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
                     
                     for gdbfield in gdbfieleds:
                         obj_scanned = self._func_scan_gdb_val(gdbval_specified[gdbfield.name], int_hierarchy_level + 1)
@@ -217,7 +216,7 @@ class SymbolInfo:
                     for gdbfield in gdbfieleds:
                         obj_defs[gdbfield.name] = gdbfield.enumval
                     
-                    int_target_address = int(gdbval_specified.address)
+                    int_target_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
                     
                     obj_scanning = {
                         "identifier":None, # caller で設定する
@@ -245,7 +244,7 @@ class SymbolInfo:
                     gdb.TYPE_CODE_FLT   # float
                 ]:
 
-                    int_target_address = int(gdbval_specified.address)
+                    int_target_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
 
                     obj_scanning = {
                         "identifier":None, # caller で設定する
@@ -284,7 +283,7 @@ class SymbolInfo:
                 pass #todo warn
             
             gdbval_specified = gdbsym_specified.value(gdb.selected_frame())
-            int_first_address = int(gdbval_specified.address)
+            int_first_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
             int_last_address =  int_first_address + gdbval_specified.type.sizeof - 1
 
             tpl_range = (int_first_address, int_last_address)
@@ -295,7 +294,7 @@ class SymbolInfo:
                                                                                     # .value() で返ってくる gdb.Value に対して
                                                                                     # 直接 int へ cast できない。(理由は不明)
             # gdbblk_target = gdb.block_for_pc(int_func_adr) # 関数が配置されている アドレスの block を取得
-            gdbblk_target = self._gdbifr_specified.progspace.block_for_pc(int_func_adr)
+            gdbblk_target = gdb.block_for_pc(int_func_adr)
             int_first_address = gdbblk_target.start
             int_last_address = gdbblk_target.end
 
@@ -381,7 +380,48 @@ class SymbolInfo:
                 pass
 
         return bool_already_scanned
+        
+    def _func_scan(self, strarr_symbol_name):
+        
+        obj_scanning = {}
 
+        # symbol 名毎の走査ループ
+        for str_symbol_name in strarr_symbol_name:
+            
+            gdbsym_a = gdb.lookup_symbol(str_symbol_name)[0]
+
+            if (gdbsym_a is None): # symbol が見つからなかった場合
+                #todo warn
+                obj_scanning[str_symbol_name] = None
+
+            elif not(self._func_check_lready_scanned(gdbsym_a, obj_scanning)): # symbol が見つかった & 走査済みでない場合
+            
+                self._gdbval_ptr_queue_arr = []
+                obj_scanned = self._func_scan_gdb_sym(gdbsym_a)
+                obj_scanning[str_symbol_name] = obj_scanned
+
+                while (len(self._gdbval_ptr_queue_arr) > 0): # 走査中に pointer 型が見つかった場合
+                    
+                    gdbval_ptr_processing_arr = self._gdbval_ptr_queue_arr # 
+                    self._gdbval_ptr_queue_arr = []
+
+                    # 走査中にみつかった pointer のアクセス先に対する走査ループ
+                    for gdbval_pointer in gdbval_ptr_processing_arr:
+
+                        str_located_symbol_name = self._func_get_symbol_name_from_addr(int(gdbval_pointer.cast(self._gdbtyp_address_length_uint))) #todo gdb の `info symbol addr` の実行結果をパースして無理やり求めている
+
+                        if not(str_located_symbol_name is None): # シンボルが配置されている場合
+
+                            gdbsym_a = gdb.lookup_symbol(str_located_symbol_name)[0] # gdb.Symbol を取得
+                            
+                            if not(self._func_check_lready_scanned(gdbsym_a, obj_scanning)):# 走査していない場合
+                                obj_scanned = self._func_scan_gdb_sym(gdbsym_a)
+                                obj_scanning[str_located_symbol_name] = obj_scanned
+
+        return obj_scanning
+
+    # < completely same as gdbnaut.py >-----------------------------------------------------------------------------------------
+    
     def _func_convert_to_list(self, target):
         str_target_arr = []
         if (isinstance(target, tuple)) :
@@ -410,64 +450,63 @@ class SymbolInfo:
 
         return str_target_arr
 
-    def _func_scan(self, strarr_symbol_name):
-        
-        obj_scanning = {}
+    def _func_sort_copy(self, node, bool_sort):
+        obj_to_return = None
 
-        # symbol 名毎の走査ループ
-        for str_symbol_name in strarr_symbol_name:
-            
-            gdbsym_a = gdb.lookup_symbol(str_symbol_name)[0]
+        if isinstance(node, list):
+            for obj_one_elem in node:
+                obj_to_return = self._func_sort_copy(obj_one_elem, bool_sort)
 
-            if (gdbsym_a is None): # symbol が見つからなかった場合
-                #todo warn
-                obj_scanning[str_symbol_name] = None
+        if isinstance(node, dict):
+            lst_keys = []
+            obj_to_return = {}
+            for str_key, obj_one_elem in node.items():
+                lst_keys.append(str_key)
 
-            elif not(self._func_check_lready_scanned(gdbsym_a, obj_scanning)): # symbol が見つかった & 走査済みでない場合
-            
-                self._gdbval_ptr_queue_arr = []
-                obj_scanned = self._func_scan_gdb_sym(gdbsym_a)
-                obj_scanning[str_symbol_name] = obj_scanned
+            if(bool_sort):
+                lst_keys.sort()
 
-                while (len(self._gdbval_ptr_queue_arr) > 0): # 走査中に pointer 型が見つかった場合
-                    
-                    gdbval_ptr_processing_arr = self._gdbval_ptr_queue_arr # 
-                    self._gdbval_ptr_queue_arr = []
+            for str_key in lst_keys:
+                obj_to_return[str_key] = self._func_sort_copy(node[str_key], bool_sort)
 
-                    # 走査中にみつかった pointer のアクセス先に対する走査ループ
-                    for gdbval_pointer in gdbval_ptr_processing_arr:
+        else:
+            obj_to_return = node
 
-                        str_located_symbol_name = self._func_get_symbol_name_from_addr(int(gdbval_pointer)) #todo gdb の `info symbol addr` の実行結果をパースして無理やり求めている
+        return obj_to_return
 
-                        if not(str_located_symbol_name is None): # シンボルが配置されている場合
-
-                            gdbsym_a = gdb.lookup_symbol(str_located_symbol_name)[0] # gdb.Symbol を取得
-                            
-                            if not(self._func_check_lready_scanned(gdbsym_a, obj_scanning)):# 走査していない場合
-                                obj_scanned = self._func_scan_gdb_sym(gdbsym_a)
-                                obj_scanning[str_located_symbol_name] = obj_scanned
-
-        return obj_scanning
-
-    def _func_scrape_copy(self, node, int_hierarchy_level, lst_attr, bool_scrape, bool_dump_only_1stL):
+    def _func_scrape_copy(self, node, int_hierarchy_level, lst_attr, bool_scrape, bool_dump_only_1stL, bool_sort):
 
         obj_scraping = {}
 
+        lst_keys = []
         for str_key, obj_val in node.items():
+            lst_keys.append(str_key)
+
+        if bool_sort :
+            lst_keys.sort()
+
+        for str_key in lst_keys:
             
-            if   ( (str_key == "value") and (isinstance(obj_val, list)) ):
+            if   ( (str_key == "value") and (isinstance(node[str_key], list)) ):
 
                 obj_scraped = []
-                for obj_field_element in obj_val:
-                    obj_scraped.append( self._func_scrape_copy(obj_field_element, int_hierarchy_level + 1, lst_attr, bool_scrape, bool_dump_only_1stL) )
+                for obj_field_element in node[str_key]:
+                    obj_scraped.append( self._func_scrape_copy(obj_field_element, int_hierarchy_level + 1, lst_attr, bool_scrape, bool_dump_only_1stL, bool_sort) )
 
                 obj_scraping[str_key] = obj_scraped
 
-            elif ( (str_key == "value") and (isinstance(obj_val, dict)) ):
+            elif ( (str_key == "value") and (isinstance(node[str_key], dict)) ):
+
+                lst_field_keys = []
+                for obj_field_key, obj_field_val in node[str_key].items():
+                    lst_field_keys.append(obj_field_key)
+
+                if bool_sort:
+                    lst_field_keys.sort()
 
                 obj_scraped = {}
-                for obj_field_key, obj_field_val in obj_val.items():
-                    obj_scraped[obj_field_key] = self._func_scrape_copy(obj_field_val, int_hierarchy_level + 1, lst_attr, bool_scrape, bool_dump_only_1stL)
+                for obj_field_key in lst_field_keys:
+                    obj_scraped[obj_field_key] = self._func_scrape_copy(node[str_key][obj_field_key], int_hierarchy_level + 1, lst_attr, bool_scrape, bool_dump_only_1stL, bool_sort)
 
                 obj_scraping[str_key] = obj_scraped
 
@@ -504,7 +543,7 @@ class SymbolInfo:
                     bool_copy = False
 
                 if bool_copy:
-                    obj_scraping[str_key] = copy.deepcopy(obj_val)
+                    obj_scraping[str_key] = self._func_sort_copy(node[str_key], bool_sort)
 
         return obj_scraping
 
@@ -527,6 +566,28 @@ class SymbolInfo:
             for obj_value in obj_target["value"].values(): # dictionary の各値を網羅
 
                 self._func_traverser((tpl_hierarchy + (obj_value, )), func_callback)
+
+    def traverse(self, callback):
+        """
+        Visit each node of scanning result dictionary object and call callback function.
+
+        Parameters
+        ----------
+        callback : function
+            Callback function. This function must have following two argments.
+            1st argment as dict  - Node that Traverser visited.
+            2nd argment as tuple - Map that represents where is visited node
+                                   set in scanning result dictionary object.
+        """
+
+        #todo callback が callable かどうかチェック(callable? inspect.isfunction?)
+        
+        #todo self._obj_scanned が None の場合
+
+        for obj_scanned_val in self._obj_scanned.values():
+            self._func_traverser((obj_scanned_val, ), callback)
+
+    # ----------------------------------------------------------------------------------------</ completely same as gdbnaut.py >
 
     def __init__(self, symbol):
         """
@@ -558,7 +619,7 @@ class SymbolInfo:
                                         # この list に queue される
         self._obj_scanned = self._func_scan(symbol)
 
-    def info(self, attr = None, scrape = False, dump_only_1stL = False):
+    def info(self, attr = None, scrape = False, dump_only_1stL = False, do_sort = False):
         """
         Returns scanning result as dictionary.
         This dictionary object will have hierarchy structure in case of
@@ -578,6 +639,9 @@ class SymbolInfo:
         dump_only_1stL : bool, default False
             If `True` specified, memory dump image (which is represented as `dump` attribute)
             in the second and subsequent layers of scanning result will be deleted.
+
+        do_sort: bool, default False
+            If `True` specified, each attribute of dictionary will sort ascending order.
 
         Returns
         -------
@@ -599,26 +663,6 @@ class SymbolInfo:
             attr = None
 
         for str_scanned_key, obj_scanned_val in self._obj_scanned.items():
-            scanning_result[str_scanned_key] = self._func_scrape_copy(obj_scanned_val, 0, attr, scrape, dump_only_1stL)
+            scanning_result[str_scanned_key] = self._func_scrape_copy(obj_scanned_val, 0, attr, scrape, dump_only_1stL, do_sort)
         
         return scanning_result
-
-    def traverse(self, callback):
-        """
-        Visit each node of scanning result dictionary object and call callback function.
-
-        Parameters
-        ----------
-        callback : function
-            Callback function. This function must have following two argments.
-            1st argment as dict  - Node that Traverser visited.
-            2nd argment as tuple - Map that represents where is visited node
-                                   set in scanning result dictionary object.
-        """
-
-        #todo callback が callable かどうかチェック(callable? inspect.isfunction?)
-        
-        #todo self._obj_scanned が None の場合
-
-        for obj_scanned_val in self._obj_scanned.values():
-            self._func_traverser((obj_scanned_val, ), callback)

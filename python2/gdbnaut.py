@@ -24,7 +24,6 @@ GDB utility module
 """
 
 import gdb
-import copy
 
 class SymbolInfo:
     """
@@ -381,35 +380,7 @@ class SymbolInfo:
                 pass
 
         return bool_already_scanned
-
-    def _func_convert_to_list(self, target):
-        str_target_arr = []
-        if (isinstance(target, tuple)) :
-            target = list(target) # list に変更
-
-        if (isinstance(target, list)) :
-            for elem in target:
-                if isinstance(elem, str):
-                    if (elem in str_target_arr): # シンボル名の重複指定の場合
-                        #todo warn
-                        pass
-
-                    else: # シンボル名の重複指定でない場合
-                        str_target_arr.append(elem)
-
-                else: # string でない場合
-                    #todo warn
-                    pass
-
-        elif (isinstance(target, str)) :
-            str_target_arr.append(target)
-
-        else: # Unknown type な場合
-            #todo warn
-            return None
-
-        return str_target_arr
-
+        
     def _func_scan(self, strarr_symbol_name):
         
         obj_scanning = {}
@@ -449,25 +420,93 @@ class SymbolInfo:
 
         return obj_scanning
 
-    def _func_scrape_copy(self, node, int_hierarchy_level, lst_attr, bool_scrape, bool_dump_only_1stL):
+    # < completely same as gdbnaut.py >-----------------------------------------------------------------------------------------
+    
+    def _func_convert_to_list(self, target):
+        str_target_arr = []
+        if (isinstance(target, tuple)) :
+            target = list(target) # list に変更
+
+        if (isinstance(target, list)) :
+            for elem in target:
+                if isinstance(elem, str):
+                    if (elem in str_target_arr): # シンボル名の重複指定の場合
+                        #todo warn
+                        pass
+
+                    else: # シンボル名の重複指定でない場合
+                        str_target_arr.append(elem)
+
+                else: # string でない場合
+                    #todo warn
+                    pass
+
+        elif (isinstance(target, str)) :
+            str_target_arr.append(target)
+
+        else: # Unknown type な場合
+            #todo warn
+            return None
+
+        return str_target_arr
+
+    def _func_sort_copy(self, node, bool_sort):
+        obj_to_return = None
+
+        if isinstance(node, list):
+            for obj_one_elem in node:
+                obj_to_return = self._func_sort_copy(obj_one_elem, bool_sort)
+
+        if isinstance(node, dict):
+            lst_keys = []
+            obj_to_return = {}
+            for str_key, obj_one_elem in node.items():
+                lst_keys.append(str_key)
+
+            if(bool_sort):
+                lst_keys.sort()
+
+            for str_key in lst_keys:
+                obj_to_return[str_key] = self._func_sort_copy(node[str_key], bool_sort)
+
+        else:
+            obj_to_return = node
+
+        return obj_to_return
+
+    def _func_scrape_copy(self, node, int_hierarchy_level, lst_attr, bool_scrape, bool_dump_only_1stL, bool_sort):
 
         obj_scraping = {}
 
+        lst_keys = []
         for str_key, obj_val in node.items():
+            lst_keys.append(str_key)
+
+        if bool_sort :
+            lst_keys.sort()
+
+        for str_key in lst_keys:
             
-            if   ( (str_key == "value") and (isinstance(obj_val, list)) ):
+            if   ( (str_key == "value") and (isinstance(node[str_key], list)) ):
 
                 obj_scraped = []
-                for obj_field_element in obj_val:
-                    obj_scraped.append( self._func_scrape_copy(obj_field_element, int_hierarchy_level + 1, lst_attr, bool_scrape, bool_dump_only_1stL) )
+                for obj_field_element in node[str_key]:
+                    obj_scraped.append( self._func_scrape_copy(obj_field_element, int_hierarchy_level + 1, lst_attr, bool_scrape, bool_dump_only_1stL, bool_sort) )
 
                 obj_scraping[str_key] = obj_scraped
 
-            elif ( (str_key == "value") and (isinstance(obj_val, dict)) ):
+            elif ( (str_key == "value") and (isinstance(node[str_key], dict)) ):
+
+                lst_field_keys = []
+                for obj_field_key, obj_field_val in node[str_key].items():
+                    lst_field_keys.append(obj_field_key)
+
+                if bool_sort:
+                    lst_field_keys.sort()
 
                 obj_scraped = {}
-                for obj_field_key, obj_field_val in obj_val.items():
-                    obj_scraped[obj_field_key] = self._func_scrape_copy(obj_field_val, int_hierarchy_level + 1, lst_attr, bool_scrape, bool_dump_only_1stL)
+                for obj_field_key in lst_field_keys:
+                    obj_scraped[obj_field_key] = self._func_scrape_copy(node[str_key][obj_field_key], int_hierarchy_level + 1, lst_attr, bool_scrape, bool_dump_only_1stL, bool_sort)
 
                 obj_scraping[str_key] = obj_scraped
 
@@ -504,7 +543,7 @@ class SymbolInfo:
                     bool_copy = False
 
                 if bool_copy:
-                    obj_scraping[str_key] = copy.deepcopy(obj_val)
+                    obj_scraping[str_key] = self._func_sort_copy(node[str_key], bool_sort)
 
         return obj_scraping
 
@@ -527,6 +566,28 @@ class SymbolInfo:
             for obj_value in obj_target["value"].values(): # dictionary の各値を網羅
 
                 self._func_traverser((tpl_hierarchy + (obj_value, )), func_callback)
+
+    def traverse(self, callback):
+        """
+        Visit each node of scanning result dictionary object and call callback function.
+
+        Parameters
+        ----------
+        callback : function
+            Callback function. This function must have following two argments.
+            1st argment as dict  - Node that Traverser visited.
+            2nd argment as tuple - Map that represents where is visited node
+                                   set in scanning result dictionary object.
+        """
+
+        #todo callback が callable かどうかチェック(callable? inspect.isfunction?)
+        
+        #todo self._obj_scanned が None の場合
+
+        for obj_scanned_val in self._obj_scanned.values():
+            self._func_traverser((obj_scanned_val, ), callback)
+
+    # ----------------------------------------------------------------------------------------</ completely same as gdbnaut.py >
 
     def __init__(self, symbol):
         """
@@ -558,7 +619,7 @@ class SymbolInfo:
                                         # この list に queue される
         self._obj_scanned = self._func_scan(symbol)
 
-    def info(self, attr = None, scrape = False, dump_only_1stL = False):
+    def info(self, attr = None, scrape = False, dump_only_1stL = False, do_sort = False):
         """
         Returns scanning result as dictionary.
         This dictionary object will have hierarchy structure in case of
@@ -578,6 +639,9 @@ class SymbolInfo:
         dump_only_1stL : bool, default False
             If `True` specified, memory dump image (which is represented as `dump` attribute)
             in the second and subsequent layers of scanning result will be deleted.
+
+        do_sort: bool, default False
+            If `True` specified, each attribute of dictionary will sort ascending order.
 
         Returns
         -------
@@ -599,26 +663,6 @@ class SymbolInfo:
             attr = None
 
         for str_scanned_key, obj_scanned_val in self._obj_scanned.items():
-            scanning_result[str_scanned_key] = self._func_scrape_copy(obj_scanned_val, 0, attr, scrape, dump_only_1stL)
+            scanning_result[str_scanned_key] = self._func_scrape_copy(obj_scanned_val, 0, attr, scrape, dump_only_1stL, do_sort)
         
         return scanning_result
-
-    def traverse(self, callback):
-        """
-        Visit each node of scanning result dictionary object and call callback function.
-
-        Parameters
-        ----------
-        callback : function
-            Callback function. This function must have following two argments.
-            1st argment as dict  - Node that Traverser visited.
-            2nd argment as tuple - Map that represents where is visited node
-                                   set in scanning result dictionary object.
-        """
-
-        #todo callback が callable かどうかチェック(callable? inspect.isfunction?)
-        
-        #todo self._obj_scanned が None の場合
-
-        for obj_scanned_val in self._obj_scanned.values():
-            self._func_traverser((obj_scanned_val, ), callback)
