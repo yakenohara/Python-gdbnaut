@@ -23,6 +23,8 @@
 GDB utility module
 """
 
+import json
+
 class gdb:
     TYPE_CODE_PTR                  =  1
     TYPE_CODE_ARRAY                =  2
@@ -201,6 +203,61 @@ class SymbolInfo:
 
                 self._func_traverser((tpl_hierarchy + (obj_value, )), func_callback)
 
+    def info(self, attr = None, scrape = False, dump_only_1stL = False, do_sort = False):
+        """
+        Returns scanning result as dictionary.
+        This dictionary object will have hierarchy structure in case of
+        scanned object represents `array`, `structure`, `union`, which has fields.
+        In this case each field will be set in `value` attribute.
+
+        Parameters
+        ----------
+        attr : str or tuple or list, default None
+            Attribute name(s) to Leave. If None specified, all attributes will leave.
+            If this argment specified as tuple or list, each element type must be str.
+            
+        scrape : bool, default False
+            This argment evaluated only if `attr` is specified.
+            If `True` was specified, specified attribute name(s) will be scraped.
+
+        dump_only_1stL : bool, default False
+            If `True` specified, memory dump image (which is represented as `dump` attribute)
+            in the second and subsequent layers of scanning result will be deleted.
+
+        do_sort: bool, default False
+            If `True` specified, each attribute of dictionary will sort ascending order.
+
+        Returns
+        -------
+        scanning_result : dict or None
+            dict will returned when scanning has been done completely.
+            So None will returned when scanning was failured.
+
+        """
+
+        scanning_result = {}
+        
+        # 引数チェック
+        attr = self._func_convert_to_list(attr)
+        if(attr is None):
+            #todo warn
+            pass
+        
+        elif(len(attr) == 0): # シンボル名の指定が 1つもない場合
+            attr = None
+
+        lst_scanned_keys = []
+        for str_scanned_key, obj_scanned_val in self._obj_scanned.items():
+            lst_scanned_keys.append(str_scanned_key)
+
+        if do_sort:
+            lst_scanned_keys.sort()
+
+        for str_scanned_key in lst_scanned_keys:
+            scanning_result[str_scanned_key] = self._func_scrape_copy(self._obj_scanned[str_scanned_key], 0, attr, scrape, dump_only_1stL, do_sort)
+        
+        return scanning_result
+        
     def traverse(self, callback):
         """
         Visit each node of scanning result dictionary object and call callback function.
@@ -210,7 +267,7 @@ class SymbolInfo:
         callback : function
             Callback function. This function must have following two argments.
             1st argment as dict  - Node that Traverser visited.
-            2nd argment as tuple - Map that represents where is visited node
+            2nd argment as tuple - Map that represents where is visited node is
                                    set in scanning result dictionary object.
         """
 
@@ -221,13 +278,33 @@ class SymbolInfo:
         for obj_scanned_val in self._obj_scanned.values():
             self._func_traverser((obj_scanned_val, ), callback)
 
-    # ----------------------------------------------------------------------------------------</ completely same as gdbnaut.py >
+    def save_as(self, file_path, attr = None, scrape = False, dump_only_1stL = False, do_sort = False):
+        """
+        Save the scanning result as specified file path(name).
 
-    def __init__(self, scanned_result):
-        self._obj_scanned = scanned_result
+        Parameters
+        ----------
+        file_path : str
+            File path (name)
 
-    def scrape_copy(self, attr = None, scrape = False, dump_only_1stL = False, do_sort = False):
+        attr : str or tuple or list, default None
+            Attribute name(s) to Leave. If None specified, all attributes will leave.
+            If this argment specified as tuple or list, each element type must be str.
+            
+        scrape : bool, default False
+            This argment evaluated only if `attr` is specified.
+            If `True` was specified, specified attribute name(s) will be scraped.
 
+        dump_only_1stL : bool, default False
+            If `True` specified, memory dump image (which is represented as `dump` attribute)
+            in the second and subsequent layers of scanning result will be deleted.
+
+        do_sort: bool, default False
+            If `True` specified, each attribute of dictionary will sort ascending order.
+
+        """
+
+        # 引数チェック
         attr = self._func_convert_to_list(attr)
         if(attr is None):
             #todo warn
@@ -235,17 +312,48 @@ class SymbolInfo:
         
         elif(len(attr) == 0): # シンボル名の指定が 1つもない場合
             attr = None
+
+        #todo ファイルアクセスチェック
+        obj_file = open(file_path, 'w')
+
+        obj_scanned = self.info(attr = attr, scrape = scrape, dump_only_1stL = dump_only_1stL, do_sort = do_sort)
+        str_scanned = json.dumps(obj_scanned, indent=4)
+
+        obj_file.write(str_scanned)
+        obj_file.close()
+
+    # ----------------------------------------------------------------------------------------</ completely same as gdbnaut.py >
+
+    def __init__(self, scanned_result):
+        """
+        Import Scanned result object which have been exported by gdbnaut.SymbolInfo.
+
+        Parameters
+        ----------
+        scanned_result : str or dict
+            If you have a exported file which have been generated by
+            `.save_as(file_path)` method of `gdbnaut.SymbolInfo` class,
+            you can specify generated file path as str.
+            Or if you have a dictionary object which have been generated by
+            `.info()` method of `gdbnaut.SymbolInfo` class,
+            you can specify that dictionary object directly as this argment.
+            Otherwise, this method will be end in failure.
+
+        """
         
-        obj_scraped = {}
+        if isinstance(scanned_result, str):
+            
+            #todo 開けなかった時
+            obj_file = open(scanned_result, 'r')
 
-        lst_keys = []
-        for str_key, obj_val in self._obj_scanned.items():
-            lst_keys.append(str_key)
+            #todo dictionary に出来なかった時
+            obj_scanned = json.load(obj_file)
+            obj_file.close()
+            self._obj_scanned = obj_scanned
 
-        if do_sort :
-            lst_keys.sort()
+        elif isinstance(scanned_result, dict):
+            self._obj_scanned = scanned_result
 
-        for str_key in lst_keys:
-            obj_scraped[str_key] = self._func_scrape_copy(self._obj_scanned[str_key], 0, attr, scrape, dump_only_1stL, do_sort)
-
-        return obj_scraped
+        else:
+            #todo warn
+            self._obj_scanned = None

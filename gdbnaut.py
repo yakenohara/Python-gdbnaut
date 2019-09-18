@@ -24,6 +24,7 @@ GDB utility module
 """
 
 import gdb
+import json
 
 class SymbolInfo:
     """
@@ -567,58 +568,6 @@ class SymbolInfo:
 
                 self._func_traverser((tpl_hierarchy + (obj_value, )), func_callback)
 
-    def traverse(self, callback):
-        """
-        Visit each node of scanning result dictionary object and call callback function.
-
-        Parameters
-        ----------
-        callback : function
-            Callback function. This function must have following two argments.
-            1st argment as dict  - Node that Traverser visited.
-            2nd argment as tuple - Map that represents where is visited node
-                                   set in scanning result dictionary object.
-        """
-
-        #todo callback が callable かどうかチェック(callable? inspect.isfunction?)
-        
-        #todo self._obj_scanned が None の場合
-
-        for obj_scanned_val in self._obj_scanned.values():
-            self._func_traverser((obj_scanned_val, ), callback)
-
-    # ----------------------------------------------------------------------------------------</ completely same as gdbnaut.py >
-
-    def __init__(self, symbol):
-        """
-        Scan the object that pointed by specified symbol(s)
-
-        Parameters
-        ----------
-        symbol : str or tuple or list
-            Symbol name(s) that represent object to scanning.
-            If this argment specified as tuple or list, each element type must be str.
-
-        """
-
-        # 引数チェック
-        symbol = self._func_convert_to_list(symbol)
-        if(symbol is None):
-            #todo warn
-            self._obj_scanned = None
-            return
-        
-        elif(len(symbol) == 0): # シンボル名の指定が 1つもない場合
-            #todo warn
-            self._obj_scanned = None
-            return
-
-        self._gdbtyp_address_length_uint = self._func_get_address_length_uint()
-        self._gdbifr_specified = gdb.selected_inferior()
-        self._gdbval_ptr_queue_arr = [] # scan 中に pointer 型の gdb.Value が見つかった場合は、
-                                        # この list に queue される
-        self._obj_scanned = self._func_scan(symbol)
-
     def info(self, attr = None, scrape = False, dump_only_1stL = False, do_sort = False):
         """
         Returns scanning result as dictionary.
@@ -662,7 +611,110 @@ class SymbolInfo:
         elif(len(attr) == 0): # シンボル名の指定が 1つもない場合
             attr = None
 
+        lst_scanned_keys = []
         for str_scanned_key, obj_scanned_val in self._obj_scanned.items():
-            scanning_result[str_scanned_key] = self._func_scrape_copy(obj_scanned_val, 0, attr, scrape, dump_only_1stL, do_sort)
+            lst_scanned_keys.append(str_scanned_key)
+
+        if do_sort:
+            lst_scanned_keys.sort()
+
+        for str_scanned_key in lst_scanned_keys:
+            scanning_result[str_scanned_key] = self._func_scrape_copy(self._obj_scanned[str_scanned_key], 0, attr, scrape, dump_only_1stL, do_sort)
         
         return scanning_result
+        
+    def traverse(self, callback):
+        """
+        Visit each node of scanning result dictionary object and call callback function.
+
+        Parameters
+        ----------
+        callback : function
+            Callback function. This function must have following two argments.
+            1st argment as dict  - Node that Traverser visited.
+            2nd argment as tuple - Map that represents where is visited node is
+                                   set in scanning result dictionary object.
+        """
+
+        #todo callback が callable かどうかチェック(callable? inspect.isfunction?)
+        
+        #todo self._obj_scanned が None の場合
+
+        for obj_scanned_val in self._obj_scanned.values():
+            self._func_traverser((obj_scanned_val, ), callback)
+
+    def save_as(self, file_path, attr = None, scrape = False, dump_only_1stL = False, do_sort = False):
+        """
+        Save the scanning result as specified file path(name).
+
+        Parameters
+        ----------
+        file_path : str
+            File path (name)
+
+        attr : str or tuple or list, default None
+            Attribute name(s) to Leave. If None specified, all attributes will leave.
+            If this argment specified as tuple or list, each element type must be str.
+            
+        scrape : bool, default False
+            This argment evaluated only if `attr` is specified.
+            If `True` was specified, specified attribute name(s) will be scraped.
+
+        dump_only_1stL : bool, default False
+            If `True` specified, memory dump image (which is represented as `dump` attribute)
+            in the second and subsequent layers of scanning result will be deleted.
+
+        do_sort: bool, default False
+            If `True` specified, each attribute of dictionary will sort ascending order.
+
+        """
+
+        # 引数チェック
+        attr = self._func_convert_to_list(attr)
+        if(attr is None):
+            #todo warn
+            pass
+        
+        elif(len(attr) == 0): # シンボル名の指定が 1つもない場合
+            attr = None
+
+        #todo ファイルアクセスチェック
+        obj_file = open(file_path, 'w')
+
+        obj_scanned = self.info(attr = attr, scrape = scrape, dump_only_1stL = dump_only_1stL, do_sort = do_sort)
+        str_scanned = json.dumps(obj_scanned, indent=4)
+
+        obj_file.write(str_scanned)
+        obj_file.close()
+
+    # ----------------------------------------------------------------------------------------</ completely same as gdbnaut.py >
+
+    def __init__(self, symbol):
+        """
+        Scan the object that pointed by specified symbol(s)
+
+        Parameters
+        ----------
+        symbol : str or tuple or list
+            Symbol name(s) that represent object to scanning.
+            If this argment specified as tuple or list, each element type must be str.
+
+        """
+
+        # 引数チェック
+        symbol = self._func_convert_to_list(symbol)
+        if(symbol is None):
+            #todo warn
+            self._obj_scanned = None
+            return
+        
+        elif(len(symbol) == 0): # シンボル名の指定が 1つもない場合
+            #todo warn
+            self._obj_scanned = None
+            return
+
+        self._gdbtyp_address_length_uint = self._func_get_address_length_uint()
+        self._gdbifr_specified = gdb.selected_inferior()
+        self._gdbval_ptr_queue_arr = [] # scan 中に pointer 型の gdb.Value が見つかった場合は、
+                                        # この list に queue される
+        self._obj_scanned = self._func_scan(symbol)

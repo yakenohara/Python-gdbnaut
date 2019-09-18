@@ -1,8 +1,6 @@
 # todo
 
- - cygwin で gdb をインストールすると、 python2 になる
- - "dump"の位置
- - python 2 はダメ
+ - "dump"の出力スタイル
   
 # limitation
 

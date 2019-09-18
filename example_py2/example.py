@@ -29,41 +29,30 @@ cls_symbol_info = gdbnaut.SymbolInfo([
     "main_p"
 ])
 
-obj_traversed = cls_symbol_info.info()
-
-outstr = json.dumps(obj_traversed, indent=4)
-
-file = open('out_obj_traversed.json', 'w')
-file.write(outstr)
-file.close()
-
-obj_traversed = cls_symbol_info.info([
-    "identifier",
-    "value"
-])
-outstr = json.dumps(obj_traversed, indent=4)
-file = open('out_obj_traversed_attr.json', 'w')
-file.write(outstr)
-file.close()
-
-obj_traversed = cls_symbol_info.info([
-    "type_code",
-    "type_primitive"
-], scrape=True)
-outstr = json.dumps(obj_traversed, indent=4)
-file = open('out_obj_traversed_attr_scrape.json', 'w')
-file.write(outstr)
-file.close()
-
-
-obj_traversed = cls_symbol_info.info(dump_only_1stL=True)
-outstr = json.dumps(obj_traversed, indent=4)
-file = open('out_obj_traversed_dump_only_1stL.json', 'w')
-file.write(outstr)
-file.close()
+cls_symbol_info.save_as(
+    file_path='out_obj_traversed.json'
+)
+cls_symbol_info.save_as(
+    file_path='out_obj_traversed_attr.json',
+    attr=[
+        "identifier",
+        "value"
+    ]
+)
+cls_symbol_info.save_as(
+    file_path='out_obj_traversed_attr_scrape.json',
+    attr=[
+        "type_code",
+        "type_primitive"
+    ],
+    scrape=True
+)
+cls_symbol_info.save_as(
+    file_path='out_obj_traversed_dump_only_1stL.json',
+    dump_only_1stL=True
+)
 
 mytraversed = ""
-
 def clb(obj, hie):
     global mytraversed
     str_hie = ""
