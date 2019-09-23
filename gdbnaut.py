@@ -695,6 +695,9 @@ class SymbolInfo:
 
         """
 
+
+        #todo self._obj_scanned が None の場合
+
         scanning_result = {}
         
         # 引数チェック
@@ -763,6 +766,8 @@ class SymbolInfo:
             If `True` specified, each attribute of dictionary will sort ascending order.
 
         """
+
+        #todo self._obj_scanned が None の場合
 
         # 引数チェック
         attr = self._func_convert_to_list(attr)
