@@ -290,7 +290,7 @@ class SymbolInfo:
                         "[error] Unkwon type was specified." + "\n" +
                         "[error] type_code:" + str(gdbtype_specified_unq_strptypdef.code) + "\n" +
                         "[error] type_declared:" + str(gdbtype_specified) + "\n" +
-                        "[error] value:" + str(gdbval_specified)
+                        "[error] value:" + str(gdbval_specified) + "\n"
                     )
                     return None # None を返して終了
                 
@@ -467,7 +467,7 @@ class SymbolInfo:
                 
                 insobj_curframe_b_back = inspect.currentframe().f_back
                 sys.stderr.write(
-                    "[error] Specified symbol name`" + str_symbol_name + "` not found."
+                    "[error] Specified symbol name`" + str_symbol_name + "` not found." + "\n"
                 )
                 return None # None を返して終了
 
@@ -518,7 +518,15 @@ class SymbolInfo:
 
     # < completely same as gdbnaut.py >-----------------------------------------------------------------------------------------
     
-    def _func_convert_to_list(self, target):
+    def _func_convert_to_list(self, target, str_arg_name):
+        """
+        指定オブジェクトを str list に変換する  
+        変換不可能な場合は、 None を返す
+        """
+        
+        if (target is None): # None は None のまま返す
+            return None
+
         str_target_arr = []
         if (isinstance(target, tuple)) :
             target = list(target) # list に変更
@@ -526,22 +534,45 @@ class SymbolInfo:
         if (isinstance(target, list)) :
             for elem in target:
                 if isinstance(elem, str):
-                    if (elem in str_target_arr): # シンボル名の重複指定の場合
-                        #todo warn
-                        pass
+                    if (len(elem) == 0): # 空文字列の場合
+                        print(
+                            "[warning] Empty string was found in `" + str_arg_name + "` argment. This will be ignored."
+                        )
+
+                    elif (elem in str_target_arr): # シンボル名の重複指定の場合
+                        print(
+                            "[warning] Duplicate difinition `" + elem + "` was found in `" + str_arg_name + "` argment. This will be ignored."
+                        )
 
                     else: # シンボル名の重複指定でない場合
                         str_target_arr.append(elem)
 
                 else: # string でない場合
-                    #todo warn
-                    pass
+                    print(
+                        "[warning] Type `" + str(type(elem)) + "` (value:`" + str(elem) + "`) was specified as " + "\n" +
+                        "[warning] element of `" + str_arg_name + "` argment. This will be ignored."
+                    )
 
         elif (isinstance(target, str)) :
-            str_target_arr.append(target)
+            if (len(target) == 0): # 空文字列の場合
+                print(
+                    "[warning] An empty string cannot be specified as `" + str_arg_name + "` argment."
+                )
+                return None
+
+            else: # 空文字列でない場合
+                str_target_arr.append(target)
 
         else: # Unknown type な場合
-            #todo warn
+            print(
+                "[warning] No valid string found in `" + str_arg_name + "` argment."
+            )
+            return None
+
+        if (len(str_target_arr) == 0): #配列変換した結果、要素数が 0 の場合
+            print(
+                "[warning] No valid string found in `" + str_arg_name + "` argment."
+            )
             return None
 
         return str_target_arr
@@ -695,20 +726,18 @@ class SymbolInfo:
 
         """
 
-
-        #todo self._obj_scanned が None の場合
-
+        if (self._obj_scanned is None): # self._obj_scanned が None の場合
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] No valid scanning result." + "\n"
+            )
+            return
+        
         scanning_result = {}
         
         # 引数チェック
-        attr = self._func_convert_to_list(attr)
-        if(attr is None):
-            #todo warn
-            pass
+        attr = self._func_convert_to_list(attr, "attr")
         
-        elif(len(attr) == 0): # シンボル名の指定が 1つもない場合
-            attr = None
-
         lst_scanned_keys = []
         for str_scanned_key, obj_scanned_val in self._obj_scanned.items():
             lst_scanned_keys.append(str_scanned_key)
@@ -734,9 +763,14 @@ class SymbolInfo:
                                    set in scanning result dictionary object.
         """
 
+        if (self._obj_scanned is None): # self._obj_scanned が None の場合
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] No valid scanning result." + "\n"
+            )
+            return
+
         #todo callback が callable かどうかチェック(callable? inspect.isfunction?)
-        
-        #todo self._obj_scanned が None の場合
 
         for obj_scanned_val in self._obj_scanned.values():
             self._func_traverser((obj_scanned_val, ), callback)
@@ -767,17 +801,16 @@ class SymbolInfo:
 
         """
 
-        #todo self._obj_scanned が None の場合
+        if (self._obj_scanned is None): # self._obj_scanned が None の場合
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] No valid scanning result." + "\n"
+            )
+            return
 
         # 引数チェック
-        attr = self._func_convert_to_list(attr)
-        if(attr is None):
-            #todo warn
-            pass
+        attr = self._func_convert_to_list(attr, "attr")
         
-        elif(len(attr) == 0): # シンボル名の指定が 1つもない場合
-            attr = None
-
         #todo ファイルアクセスチェック
         obj_file = open(file_path, 'w')
 
@@ -802,17 +835,17 @@ class SymbolInfo:
         """
 
         # 引数チェック
-        symbol = self._func_convert_to_list(symbol)
+        symbol = self._func_convert_to_list(symbol, "symbol")
         if(symbol is None):
-            #todo warn
+            
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] No valid symbol specified." + "\n"
+            )
+
             self._obj_scanned = None
             return
         
-        elif(len(symbol) == 0): # シンボル名の指定が 1つもない場合
-            #todo warn
-            self._obj_scanned = None
-            return
-
         self._gdbtyp_address_length_uint = self._func_get_address_length_uint()
         self._gdbifr_specified = gdb.selected_inferior()
         self._gdbval_ptr_queue_arr = [] # scan 中に pointer 型の gdb.Value が見つかった場合は、
