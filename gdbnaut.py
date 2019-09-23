@@ -25,13 +25,15 @@ GDB utility module
 
 import gdb
 import json
+import sys
+import inspect
 
 class SymbolInfo:
     """
     Managing scanning result about symbol which specified by str
     """
 
-    #<todo 将来使えなくなる可能性が高い>----------------------------------------------------------
+    #<caution 将来使えなくなる可能性が高い>----------------------------------------------------------
 
     # オブジェクトの型が以下のいづれかの場合は、
     # なぜか `.unqualified()`` しても `volatile` が消せない
@@ -72,12 +74,12 @@ class SymbolInfo:
         
         itr_found = re.finditer(r' +\+', str_out)
         for itr_found_elem in itr_found:
-            str_ret = str_out[:itr_found_elem.start()] #todo comment
+            str_ret = str_out[:itr_found_elem.start()] #バイト数の ズレを表示している部分 ( `+[0-9]+` を削除 )
             break
 
         return str_ret # 見つからない場合(= `No symbol matches 0x???.` のような場合) は、 None のまま返す
 
-    #---------------------------------------------------------</todo 将来使えなくなる可能性が高い>
+    #---------------------------------------------------------</caution 将来使えなくなる可能性が高い>
 
     def _func_dump_memory(self, int_start_address, int_size):
         chararr_read_memory = self._gdbifr_specified.read_memory(int_start_address, int_size)
@@ -118,6 +120,10 @@ class SymbolInfo:
             # 配列ループ
             for int_index_of_target in range(int_length_of_array):
                 obj_scanned = self._func_scan_gdb_val(gdbval_specified[int_index_of_target], int_hierarchy_level + 1)
+
+                if (obj_scanned is None) : # 不明な型が存在した為に scan 失敗した場合
+                    return None # None を返して終了
+
                 obj_scanned["identifier"] = int_index_of_target
                 obarr_scanned.append(obj_scanned)
 
@@ -128,7 +134,7 @@ class SymbolInfo:
                 "address":int_target_address,
                 "size":int_size_of_array,
                 "type_code":gdbtype_specified.code,
-                "type_primitive":self._func_force_unq(str(gdbtype_specified)), # todo <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
+                "type_primitive":self._func_force_unq(str(gdbtype_specified)), # caution <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
                 "value":obarr_scanned
             }
             
@@ -144,7 +150,7 @@ class SymbolInfo:
                 "size":gdbtype_specified.sizeof,
                 "type_code":gdbtype_specified.code,
                 "type_declared":str(gdbtype_specified),
-                "type_primitive":self._func_force_unq(str(gdbtype_specified)), # todo <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
+                "type_primitive":self._func_force_unq(str(gdbtype_specified)), # caution <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
                 "value":int(gdbval_specified.cast(self._gdbtyp_address_length_uint))
             }
 
@@ -184,6 +190,10 @@ class SymbolInfo:
                     
                     for gdbfield in gdbfieleds:
                         obj_scanned = self._func_scan_gdb_val(gdbval_specified[gdbfield.name], int_hierarchy_level + 1)
+                        
+                        if (obj_scanned is None) : # 不明な型が存在した為に scan 失敗した場合
+                            return None # None を返して終了
+
                         obj_scanned["identifier"] = gdbfield.name
                         
                         # gdbfield.bitpos は、構造体定義の先頭アドレスからの相対 bit 位置を表すので、
@@ -233,9 +243,18 @@ class SymbolInfo:
 
                     obj_scanning["enum_dict"] = obj_defs
 
-                else:
-                    # todo 実装ミス
-                    pass
+                else: # Unkownなルートの場合(=実装ミスの場合)
+
+                    # エラー表示
+                    insobj_curframe_b_back = inspect.currentframe().f_back
+                    sys.stderr.write(
+                        "[error] An unknown processing route was executed." + "\n" +
+                        "[error] File:" + insobj_curframe_b_back.f_code.co_filename + "\n" +
+                        "[error] Function:" + insobj_curframe_b_back.f_code.co_name + "\n" +
+                        "[error] Line no:" + str(insobj_curframe_b_back.f_lineno) + "\n"
+                    )
+                    
+                    return None # None を返して終了
             
             else: # field を持たないタイプの場合
 
@@ -265,23 +284,30 @@ class SymbolInfo:
                     obj_scanning["dump"] = self._func_dump_memory(int_target_address, gdbtype_specified_unq_strptypdef.sizeof)
 
                 else:
-                    #todo warn
-                    pass
+                    # Unkdown な type の場合
+                    insobj_curframe_b_back = inspect.currentframe().f_back
+                    sys.stderr.write(
+                        "[error] Unkwon type was specified." + "\n" +
+                        "[error] type_code:" + str(gdbtype_specified_unq_strptypdef.code) + "\n" +
+                        "[error] type_declared:" + str(gdbtype_specified) + "\n" +
+                        "[error] value:" + str(gdbval_specified)
+                    )
+                    return None # None を返して終了
                 
-        
         return obj_scanning
 
     def _func_get_address_range(self, gdbsym_specified):
+        """
+        gdb.Symbol が表す symbol の専有アドレス範囲を返す
+        不明な gdb.Symbol が指定された場合は、(None, None) を返す
+        """
 
-        tpl_range = None
+        tpl_range = (None, None)
 
         if (gdbsym_specified.is_variable or # variable
             gdbsym_specified.is_argument or # 引数
             gdbsym_specified.is_constant
         ):
-            if(gdbsym_specified.is_constant):
-                # const 値はなぜか is_constant で True にならずに、is_variable で True になる
-                pass #todo warn
             
             gdbval_specified = gdbsym_specified.value(gdb.selected_frame())
             int_first_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
@@ -302,8 +328,18 @@ class SymbolInfo:
             tpl_range = (int_first_address, int_last_address)
 
         else: # unkown なシンボルの場合
-            #todo warn
-            pass
+            
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] Cannot calculate address range Because of" + "\n" +
+                "[error] specified gdb.Symbol object has unkown type." + "\n" +
+                "[error] Which is not variable, argment, constant, nor function." + "\n" +
+                "[error] str(gdb.Symbol):" + str(gdbsym_specified) + "\n" +
+                "[error] The corresponding code part is" + "\n" +
+                "[error] File:" + insobj_curframe_b_back.f_code.co_filename + "\n" +
+                "[error] Function:" + insobj_curframe_b_back.f_code.co_name + "\n" +
+                "[error] Line no:" + str(insobj_curframe_b_back.f_lineno) + "\n"
+            )
 
         return tpl_range
 
@@ -315,12 +351,12 @@ class SymbolInfo:
             gdbsym_specified.is_argument or # 引数
             gdbsym_specified.is_constant
         ):
-            if(gdbsym_specified.is_constant):
-                # const 値はなぜか is_constant で True にならずに、is_variable で True になる
-                pass #todo warn
-                
             gdbval_a = gdbsym_specified.value(gdb.selected_frame())
             obj_scanned = self._func_scan_gdb_val(gdbval_a, 0)
+
+            if (obj_scanned is None):
+                return None # None を返して終了
+
             obj_scanned["identifier"] = gdbsym_specified.name
             obj_ret = obj_scanned
 
@@ -336,7 +372,7 @@ class SymbolInfo:
                 "size":int_size_of_function,
                 "type_code":gdbtyp_function.code,
                 "type_declared":str(gdbtyp_function),
-                "type_primitive":self._func_force_unq(str(gdbtyp_function)), # todo <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
+                "type_primitive":self._func_force_unq(str(gdbtyp_function)), # caution <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
                 "print_name":gdbsym_specified.print_name
             }
 
@@ -345,19 +381,44 @@ class SymbolInfo:
             obj_ret = obj_scanned
 
         else: # unkown なシンボルの場合
-            #todo warn
-            pass
+            
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] Cannot scan specified gdb.Symbol." + "\n" +
+                "[error] Specified gdb.Symbol object has unkown type." + "\n" +
+                "[error] Which is not variable, argment, constant, nor function." + "\n" +
+                "[error] str(gdb.Symbol):" + str(gdbsym_specified) + "\n" +
+                "[error] The corresponding code part is" + "\n" +
+                "[error] File:" + insobj_curframe_b_back.f_code.co_filename + "\n" +
+                "[error] Function:" + insobj_curframe_b_back.f_code.co_name + "\n" +
+                "[error] Line no:" + str(insobj_curframe_b_back.f_lineno) + "\n"
+            )
 
         return obj_ret
 
     def _func_check_lready_scanned(self, gdbsym_a, obj_scanning):
+        """
+        指定された gdb.Symbol の専有アドレス範囲に対して scan 済かどうかを返す
+
+        Returns
+        -------
+        tpl_already_scanned : tuple  
+            [0] -> 終了ステータス。  
+                   指定された gdb.Symbol の専有アドレス範囲の取得に失敗した場合に False  
+                   成功した場合に True  
+            [1] -> scan 済みなら True, 未 scan なら False  
+        """
 
         int_first_address_target, int_last_address_target = self._func_get_address_range(gdbsym_a) # gdb.Symbol から 占有 address 範囲を取得
 
+        if (int_first_address_target is None): # 指定された gdb.Symbol の専有アドレス範囲の取得に失敗
+            return (False, False)
+
         # 走査済み address かどうかのチェック
-        bool_already_scanned = False
-        for obj_symbol in obj_scanning.values():
-            
+        tpl_already_scanned = (True, False)
+        
+        for obj_symbol_key, obj_symbol in obj_scanning.items():
+
             int_first_address_of_scanned  = obj_symbol["address"]
             int_last_address_of_scanned   = int_first_address_of_scanned + obj_symbol["size"] - 1
             
@@ -367,7 +428,7 @@ class SymbolInfo:
                 (int_first_address_of_scanned   <= int_last_address_target       ) and
                 (int_last_address_target        <= int_last_address_of_scanned   )
             ):
-                bool_already_scanned = True # 走査済み を格納
+                tpl_already_scanned[1] = True # 走査済み を格納
                 break
             
             elif(( # 走査済みアドレス範囲から一部がはみ出している場合
@@ -377,10 +438,21 @@ class SymbolInfo:
                 (int_first_address_of_scanned   <= int_last_address_target       ) and
                 (int_last_address_target        <= int_last_address_of_scanned   )
             )):
-                #todo warn
-                pass
+                
+                print(
+                    # note
+                    # .zfill(20)にしている理由は、
+                    # 64bit メモリの格納最大値は 0xFFFFFFFFFFFFFFFF -> 18446744073709551615(dec) で 20桁だから。
+                    "[warning] Only some of part address range are scanned." + "\n" +
+                    "[warning] Specified symbol :" + str(gdbsym_a) + "\n" +
+                    "[warning] First address :" + str(int_first_address_target).zfill(20) + "\n" +
+                    "[warning] Last address  :" + str(int_last_address_target).zfill(20) + "\n" +
+                    "[warning] Already scanned symbol :" + obj_symbol_key + "\n" +
+                    "[warning] First address :" + str(int_first_address_of_scanned).zfill(20) + "\n" +
+                    "[warning] Last address  :" + str(int_last_address_of_scanned).zfill(20)
+                )
 
-        return bool_already_scanned
+        return tpl_already_scanned
         
     def _func_scan(self, strarr_symbol_name):
         
@@ -392,32 +464,55 @@ class SymbolInfo:
             gdbsym_a = gdb.lookup_symbol(str_symbol_name)[0]
 
             if (gdbsym_a is None): # symbol が見つからなかった場合
-                #todo warn
-                obj_scanning[str_symbol_name] = None
+                
+                insobj_curframe_b_back = inspect.currentframe().f_back
+                sys.stderr.write(
+                    "[error] Specified symbol name`" + str_symbol_name + "` not found."
+                )
+                return None # None を返して終了
 
-            elif not(self._func_check_lready_scanned(gdbsym_a, obj_scanning)): # symbol が見つかった & 走査済みでない場合
+            else:
+                bool_already_scannced_status, bool_already_scannced = self._func_check_lready_scanned(gdbsym_a, obj_scanning)
+
+                if not(bool_already_scannced_status) : # アドレス算出異常の場合
+                    return None # None を返して終了
+                
+                if not(bool_already_scannced) : # symbol が見つかった & 走査済みでない場合
             
-                self._gdbval_ptr_queue_arr = []
-                obj_scanned = self._func_scan_gdb_sym(gdbsym_a)
-                obj_scanning[str_symbol_name] = obj_scanned
-
-                while (len(self._gdbval_ptr_queue_arr) > 0): # 走査中に pointer 型が見つかった場合
-                    
-                    gdbval_ptr_processing_arr = self._gdbval_ptr_queue_arr # 
                     self._gdbval_ptr_queue_arr = []
+                    obj_scanned = self._func_scan_gdb_sym(gdbsym_a)
 
-                    # 走査中にみつかった pointer のアクセス先に対する走査ループ
-                    for gdbval_pointer in gdbval_ptr_processing_arr:
+                    if (obj_scanned is None): # scan に失敗した場合
+                        return None # None を返して終了
 
-                        str_located_symbol_name = self._func_get_symbol_name_from_addr(int(gdbval_pointer.cast(self._gdbtyp_address_length_uint))) #todo gdb の `info symbol addr` の実行結果をパースして無理やり求めている
+                    obj_scanning[str_symbol_name] = obj_scanned
 
-                        if not(str_located_symbol_name is None): # シンボルが配置されている場合
+                    while (len(self._gdbval_ptr_queue_arr) > 0): # 走査中に pointer 型が見つかった場合
+                        
+                        gdbval_ptr_processing_arr = self._gdbval_ptr_queue_arr # 
+                        self._gdbval_ptr_queue_arr = []
 
-                            gdbsym_a = gdb.lookup_symbol(str_located_symbol_name)[0] # gdb.Symbol を取得
-                            
-                            if not(self._func_check_lready_scanned(gdbsym_a, obj_scanning)):# 走査していない場合
-                                obj_scanned = self._func_scan_gdb_sym(gdbsym_a)
-                                obj_scanning[str_located_symbol_name] = obj_scanned
+                        # 走査中にみつかった pointer のアクセス先に対する走査ループ
+                        for gdbval_pointer in gdbval_ptr_processing_arr:
+
+                            str_located_symbol_name = self._func_get_symbol_name_from_addr(int(gdbval_pointer.cast(self._gdbtyp_address_length_uint))) #caution gdb の `info symbol addr` の実行結果をパースして無理やり求めている
+
+                            if not(str_located_symbol_name is None): # シンボルが配置されている場合
+
+                                gdbsym_a = gdb.lookup_symbol(str_located_symbol_name)[0] # gdb.Symbol を取得
+                                
+                                bool_already_scannced_status, bool_already_scannced = self._func_check_lready_scanned(gdbsym_a, obj_scanning)
+
+                                if not(bool_already_scannced_status) : # アドレス算出異常の場合
+                                    return None # None を返して終了
+
+                                if not(bool_already_scannced) : # symbol が見つかった & 走査済みでない場合
+                                    obj_scanned = self._func_scan_gdb_sym(gdbsym_a)
+
+                                    if (obj_scanned is None): # scan に失敗した場合
+                                        return None # None を返して終了
+
+                                    obj_scanning[str_located_symbol_name] = obj_scanned
 
         return obj_scanning
 
