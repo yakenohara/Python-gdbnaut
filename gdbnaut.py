@@ -770,10 +770,25 @@ class SymbolInfo:
             )
             return
 
-        #todo callback が callable かどうかチェック(callable? inspect.isfunction?)
+        # wish callback が callable かどうかチェック
+        # -> callable か、 inspect.isfunction
+        # 
+        # callback の引数定義をしらべる
+        # -> getargspec か、 inspect.signature()
+        #    getargspec は python3.X では非推奨
+        #    inspect.signature() は Python 3.3 より前のバージョンでは組み込みではない
+        #    https://blog.amedama.jp/entry/2016/10/31/225219
 
-        for obj_scanned_val in self._obj_scanned.values():
-            self._func_traverser((obj_scanned_val, ), callback)
+        try:
+            for obj_scanned_val in self._obj_scanned.values():
+                self._func_traverser((obj_scanned_val, ), callback)
+
+        except Exception as e:
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] " + str(e) + "\n"
+            )
+            return
 
     def save_as(self, file_path, attr = None, scrape = False, dump_only_1stL = False, do_sort = False):
         """
@@ -811,8 +826,15 @@ class SymbolInfo:
         # 引数チェック
         attr = self._func_convert_to_list(attr, "attr")
         
-        #todo ファイルアクセスチェック
-        obj_file = open(file_path, 'w')
+        try:
+            obj_file = open(file_path, 'w')
+
+        except Exception as e: #ファイルオープンに失敗した場合
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] " + str(e) + "\n"
+            )
+            return
 
         obj_scanned = self.info(attr = attr, scrape = scrape, dump_only_1stL = dump_only_1stL, do_sort = do_sort)
         str_scanned = json.dumps(obj_scanned, indent=4)
