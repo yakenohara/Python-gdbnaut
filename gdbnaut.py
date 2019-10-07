@@ -84,9 +84,25 @@ class SymbolInfo:
 
     def _func_dump_memory(self, int_start_address, int_size):
         chararr_read_memory = self._gdbifr_specified.read_memory(int_start_address, int_size)
-        int_to_return_dumped_arr = list(map(ord, chararr_read_memory))
+        obj_dump = collections.OrderedDict()
+        int_address_counter = int_start_address
+        for mem in chararr_read_memory:
+            obj_dump[(self._address_hex_format.format(int_address_counter))] = '0x{:02x}'.format(ord(mem))
+            int_address_counter += 1
 
-        return int_to_return_dumped_arr
+        return obj_dump
+
+    def _get_address_hex_format(self):
+        str_address_hex_format = None
+        gdbtype_uint    = gdb.lookup_type("unsigned int")       # 32bit 長 unsigned 整数型定義
+        int_sizeof_intp = gdb.lookup_type("int").pointer().sizeof
+
+        if( int_sizeof_intp == gdbtype_uint.sizeof ): # 32bit 環境の場合
+            str_address_hex_format = '0x{:08x}'
+        else:                                         # 64bit 環境の場合
+            str_address_hex_format = '0x{:016x}'
+        
+        return str_address_hex_format
 
     def _func_get_address_length_uint(self):
         gdbtype_to_ret_type = None
@@ -133,7 +149,7 @@ class SymbolInfo:
             obj_scanning = collections.OrderedDict()
             
             obj_scanning["identifier"] = None # caller で設定する
-            obj_scanning["address"] = int_target_address
+            obj_scanning["address"] = self._address_hex_format.format(int_target_address)
             obj_scanning["size"] = int_size_of_array
             obj_scanning["type_code"] = gdbtype_specified.code
             obj_scanning["type_declared"] = str(gdbtype_specified)
@@ -150,7 +166,7 @@ class SymbolInfo:
             obj_scanning = collections.OrderedDict()
 
             obj_scanning["identifier"] = None # caller で設定する
-            obj_scanning["address"] = int_target_address
+            obj_scanning["address"] = self._address_hex_format.format(int_target_address)
             obj_scanning["size"] = gdbtype_specified.sizeof
             obj_scanning["type_code"] = gdbtype_specified.code
             obj_scanning["type_declared"] = str(gdbtype_specified)
@@ -202,7 +218,7 @@ class SymbolInfo:
                         
                         # gdbfield.bitpos は、構造体定義の先頭アドレスからの相対 bit 位置を表すので、
                         # 構造体メンバーアドレスからの相対 bit 位置を算出する
-                        obj_scanned["bitpos"] = gdbfield.bitpos - ((obj_scanned["address"] - int_target_address) * 8)
+                        obj_scanned["bitpos"] = gdbfield.bitpos - (( int(obj_scanned["address"], 0) - int_target_address) * 8)
 
                         # bit size
                         if(gdbfield.bitsize == 0): # bitfield が定義されていない場合は、 この条件にヒットする
@@ -215,7 +231,7 @@ class SymbolInfo:
                     obj_scanning = collections.OrderedDict()
                     
                     obj_scanning["identifier"] = None # caller で設定する
-                    obj_scanning["address"] = int_target_address
+                    obj_scanning["address"] = self._address_hex_format.format(int_target_address)
                     obj_scanning["size"] = gdbtype_specified_unq_strptypdef.sizeof
                     obj_scanning["type_code"] = gdbtype_specified_unq_strptypdef.code
                     obj_scanning["type_declared"] = str(gdbtype_specified)
@@ -237,7 +253,7 @@ class SymbolInfo:
                     obj_scanning = collections.OrderedDict()
                     
                     obj_scanning["identifier"] = None # caller で設定する
-                    obj_scanning["address"] = int_target_address
+                    obj_scanning["address"] = self._address_hex_format.format(int_target_address)
                     obj_scanning["size"] = gdbtype_specified_unq_strptypdef.sizeof
                     obj_scanning["type_code"] = gdbtype_specified_unq_strptypdef.code
                     obj_scanning["type_declared"] = str(gdbtype_specified)
@@ -275,7 +291,7 @@ class SymbolInfo:
                     obj_scanning = collections.OrderedDict()
 
                     obj_scanning["identifier"] = None # caller で設定する
-                    obj_scanning["address"] = int_target_address
+                    obj_scanning["address"] = self._address_hex_format.format(int_target_address)
                     obj_scanning["size"] = gdbtype_specified_unq_strptypdef.sizeof
                     obj_scanning["type_code"] = gdbtype_specified_unq_strptypdef.code
                     obj_scanning["type_declared"] = str(gdbtype_specified)
@@ -376,7 +392,7 @@ class SymbolInfo:
             obj_scanned = collections.OrderedDict()
 
             obj_scanned["identifier"] = gdbsym_specified.name
-            obj_scanned["address"] = int_first_address_of_function
+            obj_scanned["address"] = self._address_hex_format.format(int_first_address_of_function)
             obj_scanned["size"] = int_size_of_function
             obj_scanned["type_code"] = gdbtyp_function.code
             obj_scanned["type_declared"] = str(gdbtyp_function)
@@ -426,7 +442,7 @@ class SymbolInfo:
         
         for obj_symbol_key, obj_symbol in obj_scanning.items():
 
-            int_first_address_of_scanned  = obj_symbol["address"]
+            int_first_address_of_scanned  = int(obj_symbol["address"], 0)
             int_last_address_of_scanned   = int_first_address_of_scanned + obj_symbol["size"] - 1
             
             if ( # 走査済みアドレス範囲の場合
@@ -876,6 +892,7 @@ class SymbolInfo:
             return
         
         self._gdbtyp_address_length_uint = self._func_get_address_length_uint()
+        self._address_hex_format = self._get_address_hex_format()
         self._gdbifr_specified = gdb.selected_inferior()
         self._gdbval_ptr_queue_arr = [] # scan 中に pointer 型の gdb.Value が見つかった場合は、
                                         # この list に queue される

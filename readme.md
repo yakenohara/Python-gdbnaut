@@ -1,6 +1,3 @@
-# todo
-
- - "dump"の出力スタイル
   
 # limitation
 
