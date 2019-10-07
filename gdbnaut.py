@@ -27,6 +27,7 @@ import gdb
 import json
 import sys
 import inspect
+import collections
 
 class SymbolInfo:
     """
@@ -103,7 +104,7 @@ class SymbolInfo:
 
     def _func_scan_gdb_val(self, gdbval_specified, int_hierarchy_level):
 
-        obj_scanning = {}
+        obj_scanning = collections.OrderedDict()
         gdbtype_specified = gdbval_specified.type
 
         # array / pointer / それ以外 判定
@@ -129,14 +130,16 @@ class SymbolInfo:
 
             int_target_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
             
-            obj_scanning = {
-                "identifier":None, # caller で設定する
-                "address":int_target_address,
-                "size":int_size_of_array,
-                "type_code":gdbtype_specified.code,
-                "type_primitive":self._func_force_unq(str(gdbtype_specified)), # caution <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
-                "value":obarr_scanned
-            }
+            obj_scanning = collections.OrderedDict()
+            
+            obj_scanning["identifier"] = None # caller で設定する
+            obj_scanning["address"] = int_target_address
+            obj_scanning["size"] = int_size_of_array
+            obj_scanning["type_code"] = gdbtype_specified.code
+            obj_scanning["type_declared"] = str(gdbtype_specified)
+            obj_scanning["type_primitive"] = self._func_force_unq(str(gdbtype_specified)) # caution <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
+            obj_scanning["value"] = obarr_scanned
+            
             
             obj_scanning["dump"] = self._func_dump_memory(int_target_address, int_size_of_array)
 
@@ -144,15 +147,16 @@ class SymbolInfo:
 
             int_target_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
             
-            obj_scanning = {
-                "identifier":None, # caller で設定する
-                "address":int_target_address,
-                "size":gdbtype_specified.sizeof,
-                "type_code":gdbtype_specified.code,
-                "type_declared":str(gdbtype_specified),
-                "type_primitive":self._func_force_unq(str(gdbtype_specified)), # caution <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
-                "value":int(gdbval_specified.cast(self._gdbtyp_address_length_uint))
-            }
+            obj_scanning = collections.OrderedDict()
+
+            obj_scanning["identifier"] = None # caller で設定する
+            obj_scanning["address"] = int_target_address
+            obj_scanning["size"] = gdbtype_specified.sizeof
+            obj_scanning["type_code"] = gdbtype_specified.code
+            obj_scanning["type_declared"] = str(gdbtype_specified)
+            obj_scanning["type_primitive"] = self._func_force_unq(str(gdbtype_specified)) # caution <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
+            obj_scanning["value"] = int(gdbval_specified.cast(self._gdbtyp_address_length_uint))
+            
 
             obj_scanning["dump"] = self._func_dump_memory(int_target_address, gdbtype_specified.sizeof)
 
@@ -184,7 +188,7 @@ class SymbolInfo:
                     gdb.TYPE_CODE_UNION
                 ]:
 
-                    obj_members = {}
+                    obj_members = collections.OrderedDict()
 
                     int_target_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
                     
@@ -208,36 +212,38 @@ class SymbolInfo:
                         
                         obj_members[gdbfield.name] = obj_scanned
                     
-                    obj_scanning = {
-                        "identifier":None, # caller で設定する
-                        "address":int_target_address,
-                        "size":gdbtype_specified_unq_strptypdef.sizeof,
-                        "type_code":gdbtype_specified_unq_strptypdef.code,
-                        "type_declared":str(gdbtype_specified),
-                        "type_primitive":str_primitive_type_name,
-                        "value":obj_members
-                    }
+                    obj_scanning = collections.OrderedDict()
+                    
+                    obj_scanning["identifier"] = None # caller で設定する
+                    obj_scanning["address"] = int_target_address
+                    obj_scanning["size"] = gdbtype_specified_unq_strptypdef.sizeof
+                    obj_scanning["type_code"] = gdbtype_specified_unq_strptypdef.code
+                    obj_scanning["type_declared"] = str(gdbtype_specified)
+                    obj_scanning["type_primitive"] = str_primitive_type_name
+                    obj_scanning["value"] = obj_members
+                    
 
                     obj_scanning["dump"] = self._func_dump_memory(int_target_address, gdbtype_specified_unq_strptypdef.sizeof)
 
                 elif gdbtype_specified_unq_strptypdef.code == gdb.TYPE_CODE_ENUM: # enum
 
-                    obj_defs = {}
+                    obj_defs = collections.OrderedDict()
 
                     for gdbfield in gdbfieleds:
                         obj_defs[gdbfield.name] = gdbfield.enumval
                     
                     int_target_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
                     
-                    obj_scanning = {
-                        "identifier":None, # caller で設定する
-                        "address":int_target_address,
-                        "size":gdbtype_specified_unq_strptypdef.sizeof,
-                        "type_code":gdbtype_specified_unq_strptypdef.code,
-                        "type_declared":str(gdbtype_specified),
-                        "type_primitive":str_primitive_type_name,
-                        "value":int(gdbval_specified)
-                    }
+                    obj_scanning = collections.OrderedDict()
+                    
+                    obj_scanning["identifier"] = None # caller で設定する
+                    obj_scanning["address"] = int_target_address
+                    obj_scanning["size"] = gdbtype_specified_unq_strptypdef.sizeof
+                    obj_scanning["type_code"] = gdbtype_specified_unq_strptypdef.code
+                    obj_scanning["type_declared"] = str(gdbtype_specified)
+                    obj_scanning["type_primitive"] = str_primitive_type_name
+                    obj_scanning["value"] = int(gdbval_specified)
+                    
 
                     obj_scanning["dump"] = self._func_dump_memory(int_target_address, gdbtype_specified_unq_strptypdef.sizeof)
 
@@ -266,14 +272,15 @@ class SymbolInfo:
 
                     int_target_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
 
-                    obj_scanning = {
-                        "identifier":None, # caller で設定する
-                        "address":int_target_address,
-                        "size":gdbtype_specified_unq_strptypdef.sizeof,
-                        "type_code":gdbtype_specified_unq_strptypdef.code,
-                        "type_declared":str(gdbtype_specified),
-                        "type_primitive":str_primitive_type_name
-                    }
+                    obj_scanning = collections.OrderedDict()
+
+                    obj_scanning["identifier"] = None # caller で設定する
+                    obj_scanning["address"] = int_target_address
+                    obj_scanning["size"] = gdbtype_specified_unq_strptypdef.sizeof
+                    obj_scanning["type_code"] = gdbtype_specified_unq_strptypdef.code
+                    obj_scanning["type_declared"] = str(gdbtype_specified)
+                    obj_scanning["type_primitive"] = str_primitive_type_name
+                    
 
                     if gdbtype_specified_unq_strptypdef.code == gdb.TYPE_CODE_FLT:
                         obj_scanning["value"] = float(gdbval_specified)
@@ -366,16 +373,16 @@ class SymbolInfo:
             int_size_of_function = int_last_address_of_function - int_first_address_of_function + 1
             gdbtyp_function = gdbsym_specified.type
 
-            obj_scanned = {
-                "identifier":gdbsym_specified.name,
-                "address":int_first_address_of_function,
-                "size":int_size_of_function,
-                "type_code":gdbtyp_function.code,
-                "type_declared":str(gdbtyp_function),
-                "type_primitive":self._func_force_unq(str(gdbtyp_function)), # caution <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
-                "print_name":gdbsym_specified.print_name
-            }
+            obj_scanned = collections.OrderedDict()
 
+            obj_scanned["identifier"] = gdbsym_specified.name
+            obj_scanned["address"] = int_first_address_of_function
+            obj_scanned["size"] = int_size_of_function
+            obj_scanned["type_code"] = gdbtyp_function.code
+            obj_scanned["type_declared"] = str(gdbtyp_function)
+            obj_scanned["type_primitive"] = self._func_force_unq(str(gdbtyp_function)) # caution <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
+            obj_scanned["print_name"] = gdbsym_specified.print_name
+            
             obj_scanned["dump"] = self._func_dump_memory(int_first_address_of_function, int_size_of_function)
 
             obj_ret = obj_scanned
@@ -456,7 +463,7 @@ class SymbolInfo:
         
     def _func_scan(self, strarr_symbol_name):
         
-        obj_scanning = {}
+        obj_scanning = collections.OrderedDict()
 
         # symbol 名毎の走査ループ
         for str_symbol_name in strarr_symbol_name:
@@ -586,7 +593,7 @@ class SymbolInfo:
 
         if isinstance(node, dict):
             lst_keys = []
-            obj_to_return = {}
+            obj_to_return = collections.OrderedDict()
             for str_key, obj_one_elem in node.items():
                 lst_keys.append(str_key)
 
@@ -603,7 +610,7 @@ class SymbolInfo:
 
     def _func_scrape_copy(self, node, int_hierarchy_level, lst_attr, bool_scrape, bool_dump_only_1stL, bool_sort):
 
-        obj_scraping = {}
+        obj_scraping = collections.OrderedDict()
 
         lst_keys = []
         for str_key, obj_val in node.items():
@@ -631,7 +638,7 @@ class SymbolInfo:
                 if bool_sort:
                     lst_field_keys.sort()
 
-                obj_scraped = {}
+                obj_scraped = collections.OrderedDict()
                 for obj_field_key in lst_field_keys:
                     obj_scraped[obj_field_key] = self._func_scrape_copy(node[str_key][obj_field_key], int_hierarchy_level + 1, lst_attr, bool_scrape, bool_dump_only_1stL, bool_sort)
 
@@ -733,7 +740,7 @@ class SymbolInfo:
             )
             return
         
-        scanning_result = {}
+        scanning_result = collections.OrderedDict()
         
         # 引数チェック
         attr = self._func_convert_to_list(attr, "attr")
