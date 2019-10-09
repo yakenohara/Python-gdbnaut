@@ -1,0 +1,170 @@
+{
+    "str": {
+        "identifier": "str", 
+        "address": "0x0000000100402010", 
+        "size": 12, 
+        "type_code": 2, 
+        "type_declared": "const volatile sint8 [12]", 
+        "type_primitive": "char [12]", 
+        "value": [
+            {
+                "identifier": 0, 
+                "address": "0x0000000100402010", 
+                "size": 1, 
+                "type_code": 8, 
+                "type_declared": "const volatile sint8", 
+                "type_primitive": "char", 
+                "value": 104, 
+                "dump": {
+                    "0x0000000100402010": "0x68"
+                }
+            }, 
+            {
+                "identifier": 1, 
+                "address": "0x0000000100402011", 
+                "size": 1, 
+                "type_code": 8, 
+                "type_declared": "const volatile sint8", 
+                "type_primitive": "char", 
+                "value": 101, 
+                "dump": {
+                    "0x0000000100402011": "0x65"
+                }
+            }, 
+            {
+                "identifier": 2, 
+                "address": "0x0000000100402012", 
+                "size": 1, 
+                "type_code": 8, 
+                "type_declared": "const volatile sint8", 
+                "type_primitive": "char", 
+                "value": 108, 
+                "dump": {
+                    "0x0000000100402012": "0x6c"
+                }
+            }, 
+            {
+                "identifier": 3, 
+                "address": "0x0000000100402013", 
+                "size": 1, 
+                "type_code": 8, 
+                "type_declared": "const volatile sint8", 
+                "type_primitive": "char", 
+                "value": 108, 
+                "dump": {
+                    "0x0000000100402013": "0x6c"
+                }
+            }, 
+            {
+                "identifier": 4, 
+                "address": "0x0000000100402014", 
+                "size": 1, 
+                "type_code": 8, 
+                "type_declared": "const volatile sint8", 
+                "type_primitive": "char", 
+                "value": 111, 
+                "dump": {
+                    "0x0000000100402014": "0x6f"
+                }
+            }, 
+            {
+                "identifier": 5, 
+                "address": "0x0000000100402015", 
+                "size": 1, 
+                "type_code": 8, 
+                "type_declared": "const volatile sint8", 
+                "type_primitive": "char", 
+                "value": 32, 
+                "dump": {
+                    "0x0000000100402015": "0x20"
+                }
+            }, 
+            {
+                "identifier": 6, 
+                "address": "0x0000000100402016", 
+                "size": 1, 
+                "type_code": 8, 
+                "type_declared": "const volatile sint8", 
+                "type_primitive": "char", 
+                "value": 119, 
+                "dump": {
+                    "0x0000000100402016": "0x77"
+                }
+            }, 
+            {
+                "identifier": 7, 
+                "address": "0x0000000100402017", 
+                "size": 1, 
+                "type_code": 8, 
+                "type_declared": "const volatile sint8", 
+                "type_primitive": "char", 
+                "value": 111, 
+                "dump": {
+                    "0x0000000100402017": "0x6f"
+                }
+            }, 
+            {
+                "identifier": 8, 
+                "address": "0x0000000100402018", 
+                "size": 1, 
+                "type_code": 8, 
+                "type_declared": "const volatile sint8", 
+                "type_primitive": "char", 
+                "value": 114, 
+                "dump": {
+                    "0x0000000100402018": "0x72"
+                }
+            }, 
+            {
+                "identifier": 9, 
+                "address": "0x0000000100402019", 
+                "size": 1, 
+                "type_code": 8, 
+                "type_declared": "const volatile sint8", 
+                "type_primitive": "char", 
+                "value": 108, 
+                "dump": {
+                    "0x0000000100402019": "0x6c"
+                }
+            }, 
+            {
+                "identifier": 10, 
+                "address": "0x000000010040201a", 
+                "size": 1, 
+                "type_code": 8, 
+                "type_declared": "const volatile sint8", 
+                "type_primitive": "char", 
+                "value": 100, 
+                "dump": {
+                    "0x000000010040201a": "0x64"
+                }
+            }, 
+            {
+                "identifier": 11, 
+                "address": "0x000000010040201b", 
+                "size": 1, 
+                "type_code": 8, 
+                "type_declared": "const volatile sint8", 
+                "type_primitive": "char", 
+                "value": 0, 
+                "dump": {
+                    "0x000000010040201b": "0x00"
+                }
+            }
+        ], 
+        "dump": {
+            "0x0000000100402010": "0x68", 
+            "0x0000000100402011": "0x65", 
+            "0x0000000100402012": "0x6c", 
+            "0x0000000100402013": "0x6c", 
+            "0x0000000100402014": "0x6f", 
+            "0x0000000100402015": "0x20", 
+            "0x0000000100402016": "0x77", 
+            "0x0000000100402017": "0x6f", 
+            "0x0000000100402018": "0x72", 
+            "0x0000000100402019": "0x6c", 
+            "0x000000010040201a": "0x64", 
+            "0x000000010040201b": "0x00"
+        }
+    }
+}
