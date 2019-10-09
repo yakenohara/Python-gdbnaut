@@ -171,8 +171,8 @@ class SymbolInfo:
             obj_scanning["type_code"] = gdbtype_specified.code
             obj_scanning["type_declared"] = str(gdbtype_specified)
             obj_scanning["type_primitive"] = self._func_force_unq(str(gdbtype_specified)) # caution <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
-            obj_scanning["value"] = int(gdbval_specified.cast(self._gdbtyp_address_length_uint))
-            
+            obj_scanning["value"] = self._address_hex_format.format(int(gdbval_specified.cast(self._gdbtyp_address_length_uint)))
+
 
             obj_scanning["dump"] = self._func_dump_memory(int_target_address, gdbtype_specified.sizeof)
 
@@ -397,7 +397,6 @@ class SymbolInfo:
             obj_scanned["type_code"] = gdbtyp_function.code
             obj_scanned["type_declared"] = str(gdbtyp_function)
             obj_scanned["type_primitive"] = self._func_force_unq(str(gdbtyp_function)) # caution <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
-            obj_scanned["print_name"] = gdbsym_specified.print_name
             
             obj_scanned["dump"] = self._func_dump_memory(int_first_address_of_function, int_size_of_function)
 
