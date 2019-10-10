@@ -418,7 +418,7 @@ class SymbolInfo:
 
         return obj_ret
 
-    def _func_check_lready_scanned(self, gdbsym_a, obj_scanning):
+    def _func_check_already_scanned(self, gdbsym_a, obj_scanning):
         """
         指定された gdb.Symbol の専有アドレス範囲に対して scan 済かどうかを返す
 
@@ -450,7 +450,7 @@ class SymbolInfo:
                 (int_first_address_of_scanned   <= int_last_address_target       ) and
                 (int_last_address_target        <= int_last_address_of_scanned   )
             ):
-                tpl_already_scanned[1] = True # 走査済み を格納
+                tpl_already_scanned = (True, True) # 走査済み を格納
                 break
             
             elif(( # 走査済みアドレス範囲から一部がはみ出している場合
@@ -462,16 +462,13 @@ class SymbolInfo:
             )):
                 
                 print(
-                    # note
-                    # .zfill(20)にしている理由は、
-                    # 64bit メモリの格納最大値は 0xFFFFFFFFFFFFFFFF -> 18446744073709551615(dec) で 20桁だから。
                     "[warning] Only some of part address range are scanned." + "\n" +
                     "[warning] Specified symbol :" + str(gdbsym_a) + "\n" +
-                    "[warning] First address :" + str(int_first_address_target).zfill(20) + "\n" +
-                    "[warning] Last address  :" + str(int_last_address_target).zfill(20) + "\n" +
+                    "[warning] First address :" + self._address_hex_format.format(int_first_address_target) + "\n"
+                    "[warning] Last address  :" + self._address_hex_format.format(int_last_address_target) + "\n" +
                     "[warning] Already scanned symbol :" + obj_symbol_key + "\n" +
-                    "[warning] First address :" + str(int_first_address_of_scanned).zfill(20) + "\n" +
-                    "[warning] Last address  :" + str(int_last_address_of_scanned).zfill(20)
+                    "[warning] First address :" + self._address_hex_format.format(int_first_address_of_scanned) + "\n" +
+                    "[warning] Last address  :" + self._address_hex_format.format(int_last_address_of_scanned)
                 )
 
         return tpl_already_scanned
@@ -494,7 +491,7 @@ class SymbolInfo:
                 return None # None を返して終了
 
             else:
-                bool_already_scannced_status, bool_already_scannced = self._func_check_lready_scanned(gdbsym_a, obj_scanning)
+                bool_already_scannced_status, bool_already_scannced = self._func_check_already_scanned(gdbsym_a, obj_scanning)
 
                 if not(bool_already_scannced_status) : # アドレス算出異常の場合
                     return None # None を返して終了
@@ -523,7 +520,7 @@ class SymbolInfo:
 
                                 gdbsym_a = gdb.lookup_symbol(str_located_symbol_name)[0] # gdb.Symbol を取得
                                 
-                                bool_already_scannced_status, bool_already_scannced = self._func_check_lready_scanned(gdbsym_a, obj_scanning)
+                                bool_already_scannced_status, bool_already_scannced = self._func_check_already_scanned(gdbsym_a, obj_scanning)
 
                                 if not(bool_already_scannced_status) : # アドレス算出異常の場合
                                     return None # None を返して終了
