@@ -1,0 +1,26 @@
+{
+    "week1": {
+        "identifier": "week1", 
+        "address": "0x0000000100402010", 
+        "size": 4, 
+        "type_code": 5, 
+        "type_declared": "const volatile enum e_wk", 
+        "type_primitive": "enum e_wk", 
+        "value": 2, 
+        "dump": {
+            "0x0000000100402010": "0x02", 
+            "0x0000000100402011": "0x00", 
+            "0x0000000100402012": "0x00", 
+            "0x0000000100402013": "0x00"
+        }, 
+        "enum_dict": {
+            "Mon": 1, 
+            "Tue": 2, 
+            "Wed": 3, 
+            "Thu": 4, 
+            "Fri": 5, 
+            "Sat": 11, 
+            "Sun": 12
+        }
+    }
+}

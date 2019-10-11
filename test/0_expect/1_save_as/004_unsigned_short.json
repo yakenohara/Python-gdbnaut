@@ -1,0 +1,15 @@
+{
+    "s": {
+        "identifier": "s", 
+        "address": "0x0000000100402010", 
+        "size": 2, 
+        "type_code": 8, 
+        "type_declared": "const volatile uint16", 
+        "type_primitive": "short unsigned int", 
+        "value": 257, 
+        "dump": {
+            "0x0000000100402010": "0x01", 
+            "0x0000000100402011": "0x01"
+        }
+    }
+}

@@ -1,0 +1,104 @@
+{
+    "ss": {
+        "identifier": "ss", 
+        "address": "0x0000000100402010", 
+        "size": 12, 
+        "type_code": 3, 
+        "type_declared": "const volatile st_super", 
+        "type_primitive": "st_super", 
+        "value": {
+            "i0": {
+                "identifier": "i0", 
+                "address": "0x0000000100402010", 
+                "size": 4, 
+                "type_code": 8, 
+                "type_declared": "int", 
+                "type_primitive": "int", 
+                "value": -1, 
+                "dump": {
+                    "0x0000000100402010": "0xff", 
+                    "0x0000000100402011": "0xff", 
+                    "0x0000000100402012": "0xff", 
+                    "0x0000000100402013": "0xff"
+                }, 
+                "bitpos": 0, 
+                "bitsize": 32
+            }, 
+            "s": {
+                "identifier": "s", 
+                "address": "0x0000000100402014", 
+                "size": 2, 
+                "type_code": 3, 
+                "type_declared": "st_t", 
+                "type_primitive": "st_t", 
+                "value": {
+                    "c0": {
+                        "identifier": "c0", 
+                        "address": "0x0000000100402014", 
+                        "size": 1, 
+                        "type_code": 8, 
+                        "type_declared": "char", 
+                        "type_primitive": "char", 
+                        "value": -2, 
+                        "dump": {
+                            "0x0000000100402014": "0xfe"
+                        }, 
+                        "bitpos": 0, 
+                        "bitsize": 8
+                    }, 
+                    "c1": {
+                        "identifier": "c1", 
+                        "address": "0x0000000100402015", 
+                        "size": 1, 
+                        "type_code": 8, 
+                        "type_declared": "char", 
+                        "type_primitive": "char", 
+                        "value": 2, 
+                        "dump": {
+                            "0x0000000100402015": "0x02"
+                        }, 
+                        "bitpos": 0, 
+                        "bitsize": 8
+                    }
+                }, 
+                "dump": {
+                    "0x0000000100402014": "0xfe", 
+                    "0x0000000100402015": "0x02"
+                }, 
+                "bitpos": 0, 
+                "bitsize": 16
+            }, 
+            "f": {
+                "identifier": "f", 
+                "address": "0x0000000100402018", 
+                "size": 4, 
+                "type_code": 9, 
+                "type_declared": "float", 
+                "type_primitive": "float", 
+                "value": -0.5, 
+                "dump": {
+                    "0x0000000100402018": "0x00", 
+                    "0x0000000100402019": "0x00", 
+                    "0x000000010040201a": "0x00", 
+                    "0x000000010040201b": "0xbf"
+                }, 
+                "bitpos": 0, 
+                "bitsize": 32
+            }
+        }, 
+        "dump": {
+            "0x0000000100402010": "0xff", 
+            "0x0000000100402011": "0xff", 
+            "0x0000000100402012": "0xff", 
+            "0x0000000100402013": "0xff", 
+            "0x0000000100402014": "0xfe", 
+            "0x0000000100402015": "0x02", 
+            "0x0000000100402016": "0x00", 
+            "0x0000000100402017": "0x00", 
+            "0x0000000100402018": "0x00", 
+            "0x0000000100402019": "0x00", 
+            "0x000000010040201a": "0x00", 
+            "0x000000010040201b": "0xbf"
+        }
+    }
+}

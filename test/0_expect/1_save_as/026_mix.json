@@ -1,0 +1,684 @@
+{
+    "gsym0_t_st_0": {
+        "identifier": "gsym0_t_st_0", 
+        "address": "0x0000000100402010", 
+        "size": 24, 
+        "type_code": 2, 
+        "type_declared": "volatile t_st_0 [2]", 
+        "type_primitive": "struct st_0 [2]", 
+        "value": [
+            {
+                "identifier": 0, 
+                "address": "0x0000000100402010", 
+                "size": 12, 
+                "type_code": 3, 
+                "type_declared": "volatile t_st_0", 
+                "type_primitive": "struct st_0", 
+                "value": {
+                    "sym0_t_un_0_0": {
+                        "identifier": "sym0_t_un_0_0", 
+                        "address": "0x0000000100402010", 
+                        "size": 4, 
+                        "type_code": 2, 
+                        "type_declared": "t_un_0_0 [2]", 
+                        "type_primitive": "union un_0_0 [2]", 
+                        "value": [
+                            {
+                                "identifier": 0, 
+                                "address": "0x0000000100402010", 
+                                "size": 2, 
+                                "type_code": 4, 
+                                "type_declared": "t_un_0_0", 
+                                "type_primitive": "union un_0_0", 
+                                "value": {
+                                    "sym0_t_uint16": {
+                                        "identifier": "sym0_t_uint16", 
+                                        "address": "0x0000000100402010", 
+                                        "size": 2, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint16", 
+                                        "type_primitive": "short unsigned int", 
+                                        "value": 4080, 
+                                        "dump": {
+                                            "0x0000000100402010": "0xf0", 
+                                            "0x0000000100402011": "0x0f"
+                                        }, 
+                                        "bitpos": 0, 
+                                        "bitsize": 16
+                                    }, 
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08", 
+                                        "address": "0x0000000100402010", 
+                                        "size": 2, 
+                                        "type_code": 2, 
+                                        "type_declared": "t_uint08 [2]", 
+                                        "type_primitive": "unsigned char [2]", 
+                                        "value": [
+                                            {
+                                                "identifier": 0, 
+                                                "address": "0x0000000100402010", 
+                                                "size": 1, 
+                                                "type_code": 8, 
+                                                "type_declared": "t_uint08", 
+                                                "type_primitive": "unsigned char", 
+                                                "value": 240, 
+                                                "dump": {
+                                                    "0x0000000100402010": "0xf0"
+                                                }
+                                            }, 
+                                            {
+                                                "identifier": 1, 
+                                                "address": "0x0000000100402011", 
+                                                "size": 1, 
+                                                "type_code": 8, 
+                                                "type_declared": "t_uint08", 
+                                                "type_primitive": "unsigned char", 
+                                                "value": 15, 
+                                                "dump": {
+                                                    "0x0000000100402011": "0x0f"
+                                                }
+                                            }
+                                        ], 
+                                        "dump": {
+                                            "0x0000000100402010": "0xf0", 
+                                            "0x0000000100402011": "0x0f"
+                                        }, 
+                                        "bitpos": 0, 
+                                        "bitsize": 16
+                                    }
+                                }, 
+                                "dump": {
+                                    "0x0000000100402010": "0xf0", 
+                                    "0x0000000100402011": "0x0f"
+                                }
+                            }, 
+                            {
+                                "identifier": 1, 
+                                "address": "0x0000000100402012", 
+                                "size": 2, 
+                                "type_code": 4, 
+                                "type_declared": "t_un_0_0", 
+                                "type_primitive": "union un_0_0", 
+                                "value": {
+                                    "sym0_t_uint16": {
+                                        "identifier": "sym0_t_uint16", 
+                                        "address": "0x0000000100402012", 
+                                        "size": 2, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint16", 
+                                        "type_primitive": "short unsigned int", 
+                                        "value": 61455, 
+                                        "dump": {
+                                            "0x0000000100402012": "0x0f", 
+                                            "0x0000000100402013": "0xf0"
+                                        }, 
+                                        "bitpos": 0, 
+                                        "bitsize": 16
+                                    }, 
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08", 
+                                        "address": "0x0000000100402012", 
+                                        "size": 2, 
+                                        "type_code": 2, 
+                                        "type_declared": "t_uint08 [2]", 
+                                        "type_primitive": "unsigned char [2]", 
+                                        "value": [
+                                            {
+                                                "identifier": 0, 
+                                                "address": "0x0000000100402012", 
+                                                "size": 1, 
+                                                "type_code": 8, 
+                                                "type_declared": "t_uint08", 
+                                                "type_primitive": "unsigned char", 
+                                                "value": 15, 
+                                                "dump": {
+                                                    "0x0000000100402012": "0x0f"
+                                                }
+                                            }, 
+                                            {
+                                                "identifier": 1, 
+                                                "address": "0x0000000100402013", 
+                                                "size": 1, 
+                                                "type_code": 8, 
+                                                "type_declared": "t_uint08", 
+                                                "type_primitive": "unsigned char", 
+                                                "value": 240, 
+                                                "dump": {
+                                                    "0x0000000100402013": "0xf0"
+                                                }
+                                            }
+                                        ], 
+                                        "dump": {
+                                            "0x0000000100402012": "0x0f", 
+                                            "0x0000000100402013": "0xf0"
+                                        }, 
+                                        "bitpos": 0, 
+                                        "bitsize": 16
+                                    }
+                                }, 
+                                "dump": {
+                                    "0x0000000100402012": "0x0f", 
+                                    "0x0000000100402013": "0xf0"
+                                }
+                            }
+                        ], 
+                        "dump": {
+                            "0x0000000100402010": "0xf0", 
+                            "0x0000000100402011": "0x0f", 
+                            "0x0000000100402012": "0x0f", 
+                            "0x0000000100402013": "0xf0"
+                        }, 
+                        "bitpos": 0, 
+                        "bitsize": 32
+                    }, 
+                    "sym1_t_uint32": {
+                        "identifier": "sym1_t_uint32", 
+                        "address": "0x0000000100402014", 
+                        "size": 4, 
+                        "type_code": 8, 
+                        "type_declared": "t_uint32", 
+                        "type_primitive": "unsigned int", 
+                        "value": 252645135, 
+                        "dump": {
+                            "0x0000000100402014": "0x0f", 
+                            "0x0000000100402015": "0x0f", 
+                            "0x0000000100402016": "0x0f", 
+                            "0x0000000100402017": "0x0f"
+                        }, 
+                        "bitpos": 0, 
+                        "bitsize": 32
+                    }, 
+                    "sym2_t_st_0_1": {
+                        "identifier": "sym2_t_st_0_1", 
+                        "address": "0x0000000100402018", 
+                        "size": 2, 
+                        "type_code": 2, 
+                        "type_declared": "t_st_0_1 [2]", 
+                        "type_primitive": "struct st_0_1 [2]", 
+                        "value": [
+                            {
+                                "identifier": 0, 
+                                "address": "0x0000000100402018", 
+                                "size": 1, 
+                                "type_code": 3, 
+                                "type_declared": "t_st_0_1", 
+                                "type_primitive": "struct st_0_1", 
+                                "value": {
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08", 
+                                        "address": "0x0000000100402018", 
+                                        "size": 1, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint08", 
+                                        "type_primitive": "unsigned char", 
+                                        "value": 1, 
+                                        "dump": {
+                                            "0x0000000100402018": "0x50"
+                                        }, 
+                                        "bitpos": 4, 
+                                        "bitsize": 1
+                                    }, 
+                                    "sym2_t_uint08": {
+                                        "identifier": "sym2_t_uint08", 
+                                        "address": "0x0000000100402018", 
+                                        "size": 1, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint08", 
+                                        "type_primitive": "unsigned char", 
+                                        "value": 0, 
+                                        "dump": {
+                                            "0x0000000100402018": "0x50"
+                                        }, 
+                                        "bitpos": 5, 
+                                        "bitsize": 1
+                                    }, 
+                                    "sym3_t_uint08": {
+                                        "identifier": "sym3_t_uint08", 
+                                        "address": "0x0000000100402018", 
+                                        "size": 1, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint08", 
+                                        "type_primitive": "unsigned char", 
+                                        "value": 1, 
+                                        "dump": {
+                                            "0x0000000100402018": "0x50"
+                                        }, 
+                                        "bitpos": 6, 
+                                        "bitsize": 1
+                                    }
+                                }, 
+                                "dump": {
+                                    "0x0000000100402018": "0x50"
+                                }
+                            }, 
+                            {
+                                "identifier": 1, 
+                                "address": "0x0000000100402019", 
+                                "size": 1, 
+                                "type_code": 3, 
+                                "type_declared": "t_st_0_1", 
+                                "type_primitive": "struct st_0_1", 
+                                "value": {
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08", 
+                                        "address": "0x0000000100402019", 
+                                        "size": 1, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint08", 
+                                        "type_primitive": "unsigned char", 
+                                        "value": 0, 
+                                        "dump": {
+                                            "0x0000000100402019": "0x20"
+                                        }, 
+                                        "bitpos": 4, 
+                                        "bitsize": 1
+                                    }, 
+                                    "sym2_t_uint08": {
+                                        "identifier": "sym2_t_uint08", 
+                                        "address": "0x0000000100402019", 
+                                        "size": 1, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint08", 
+                                        "type_primitive": "unsigned char", 
+                                        "value": 1, 
+                                        "dump": {
+                                            "0x0000000100402019": "0x20"
+                                        }, 
+                                        "bitpos": 5, 
+                                        "bitsize": 1
+                                    }, 
+                                    "sym3_t_uint08": {
+                                        "identifier": "sym3_t_uint08", 
+                                        "address": "0x0000000100402019", 
+                                        "size": 1, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint08", 
+                                        "type_primitive": "unsigned char", 
+                                        "value": 0, 
+                                        "dump": {
+                                            "0x0000000100402019": "0x20"
+                                        }, 
+                                        "bitpos": 6, 
+                                        "bitsize": 1
+                                    }
+                                }, 
+                                "dump": {
+                                    "0x0000000100402019": "0x20"
+                                }
+                            }
+                        ], 
+                        "dump": {
+                            "0x0000000100402018": "0x50", 
+                            "0x0000000100402019": "0x20"
+                        }, 
+                        "bitpos": 0, 
+                        "bitsize": 16
+                    }
+                }, 
+                "dump": {
+                    "0x0000000100402010": "0xf0", 
+                    "0x0000000100402011": "0x0f", 
+                    "0x0000000100402012": "0x0f", 
+                    "0x0000000100402013": "0xf0", 
+                    "0x0000000100402014": "0x0f", 
+                    "0x0000000100402015": "0x0f", 
+                    "0x0000000100402016": "0x0f", 
+                    "0x0000000100402017": "0x0f", 
+                    "0x0000000100402018": "0x50", 
+                    "0x0000000100402019": "0x20", 
+                    "0x000000010040201a": "0x00", 
+                    "0x000000010040201b": "0x00"
+                }
+            }, 
+            {
+                "identifier": 1, 
+                "address": "0x000000010040201c", 
+                "size": 12, 
+                "type_code": 3, 
+                "type_declared": "volatile t_st_0", 
+                "type_primitive": "struct st_0", 
+                "value": {
+                    "sym0_t_un_0_0": {
+                        "identifier": "sym0_t_un_0_0", 
+                        "address": "0x000000010040201c", 
+                        "size": 4, 
+                        "type_code": 2, 
+                        "type_declared": "t_un_0_0 [2]", 
+                        "type_primitive": "union un_0_0 [2]", 
+                        "value": [
+                            {
+                                "identifier": 0, 
+                                "address": "0x000000010040201c", 
+                                "size": 2, 
+                                "type_code": 4, 
+                                "type_declared": "t_un_0_0", 
+                                "type_primitive": "union un_0_0", 
+                                "value": {
+                                    "sym0_t_uint16": {
+                                        "identifier": "sym0_t_uint16", 
+                                        "address": "0x000000010040201c", 
+                                        "size": 2, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint16", 
+                                        "type_primitive": "short unsigned int", 
+                                        "value": 4080, 
+                                        "dump": {
+                                            "0x000000010040201c": "0xf0", 
+                                            "0x000000010040201d": "0x0f"
+                                        }, 
+                                        "bitpos": 0, 
+                                        "bitsize": 16
+                                    }, 
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08", 
+                                        "address": "0x000000010040201c", 
+                                        "size": 2, 
+                                        "type_code": 2, 
+                                        "type_declared": "t_uint08 [2]", 
+                                        "type_primitive": "unsigned char [2]", 
+                                        "value": [
+                                            {
+                                                "identifier": 0, 
+                                                "address": "0x000000010040201c", 
+                                                "size": 1, 
+                                                "type_code": 8, 
+                                                "type_declared": "t_uint08", 
+                                                "type_primitive": "unsigned char", 
+                                                "value": 240, 
+                                                "dump": {
+                                                    "0x000000010040201c": "0xf0"
+                                                }
+                                            }, 
+                                            {
+                                                "identifier": 1, 
+                                                "address": "0x000000010040201d", 
+                                                "size": 1, 
+                                                "type_code": 8, 
+                                                "type_declared": "t_uint08", 
+                                                "type_primitive": "unsigned char", 
+                                                "value": 15, 
+                                                "dump": {
+                                                    "0x000000010040201d": "0x0f"
+                                                }
+                                            }
+                                        ], 
+                                        "dump": {
+                                            "0x000000010040201c": "0xf0", 
+                                            "0x000000010040201d": "0x0f"
+                                        }, 
+                                        "bitpos": 0, 
+                                        "bitsize": 16
+                                    }
+                                }, 
+                                "dump": {
+                                    "0x000000010040201c": "0xf0", 
+                                    "0x000000010040201d": "0x0f"
+                                }
+                            }, 
+                            {
+                                "identifier": 1, 
+                                "address": "0x000000010040201e", 
+                                "size": 2, 
+                                "type_code": 4, 
+                                "type_declared": "t_un_0_0", 
+                                "type_primitive": "union un_0_0", 
+                                "value": {
+                                    "sym0_t_uint16": {
+                                        "identifier": "sym0_t_uint16", 
+                                        "address": "0x000000010040201e", 
+                                        "size": 2, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint16", 
+                                        "type_primitive": "short unsigned int", 
+                                        "value": 61455, 
+                                        "dump": {
+                                            "0x000000010040201e": "0x0f", 
+                                            "0x000000010040201f": "0xf0"
+                                        }, 
+                                        "bitpos": 0, 
+                                        "bitsize": 16
+                                    }, 
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08", 
+                                        "address": "0x000000010040201e", 
+                                        "size": 2, 
+                                        "type_code": 2, 
+                                        "type_declared": "t_uint08 [2]", 
+                                        "type_primitive": "unsigned char [2]", 
+                                        "value": [
+                                            {
+                                                "identifier": 0, 
+                                                "address": "0x000000010040201e", 
+                                                "size": 1, 
+                                                "type_code": 8, 
+                                                "type_declared": "t_uint08", 
+                                                "type_primitive": "unsigned char", 
+                                                "value": 15, 
+                                                "dump": {
+                                                    "0x000000010040201e": "0x0f"
+                                                }
+                                            }, 
+                                            {
+                                                "identifier": 1, 
+                                                "address": "0x000000010040201f", 
+                                                "size": 1, 
+                                                "type_code": 8, 
+                                                "type_declared": "t_uint08", 
+                                                "type_primitive": "unsigned char", 
+                                                "value": 240, 
+                                                "dump": {
+                                                    "0x000000010040201f": "0xf0"
+                                                }
+                                            }
+                                        ], 
+                                        "dump": {
+                                            "0x000000010040201e": "0x0f", 
+                                            "0x000000010040201f": "0xf0"
+                                        }, 
+                                        "bitpos": 0, 
+                                        "bitsize": 16
+                                    }
+                                }, 
+                                "dump": {
+                                    "0x000000010040201e": "0x0f", 
+                                    "0x000000010040201f": "0xf0"
+                                }
+                            }
+                        ], 
+                        "dump": {
+                            "0x000000010040201c": "0xf0", 
+                            "0x000000010040201d": "0x0f", 
+                            "0x000000010040201e": "0x0f", 
+                            "0x000000010040201f": "0xf0"
+                        }, 
+                        "bitpos": 0, 
+                        "bitsize": 32
+                    }, 
+                    "sym1_t_uint32": {
+                        "identifier": "sym1_t_uint32", 
+                        "address": "0x0000000100402020", 
+                        "size": 4, 
+                        "type_code": 8, 
+                        "type_declared": "t_uint32", 
+                        "type_primitive": "unsigned int", 
+                        "value": 252645135, 
+                        "dump": {
+                            "0x0000000100402020": "0x0f", 
+                            "0x0000000100402021": "0x0f", 
+                            "0x0000000100402022": "0x0f", 
+                            "0x0000000100402023": "0x0f"
+                        }, 
+                        "bitpos": 0, 
+                        "bitsize": 32
+                    }, 
+                    "sym2_t_st_0_1": {
+                        "identifier": "sym2_t_st_0_1", 
+                        "address": "0x0000000100402024", 
+                        "size": 2, 
+                        "type_code": 2, 
+                        "type_declared": "t_st_0_1 [2]", 
+                        "type_primitive": "struct st_0_1 [2]", 
+                        "value": [
+                            {
+                                "identifier": 0, 
+                                "address": "0x0000000100402024", 
+                                "size": 1, 
+                                "type_code": 3, 
+                                "type_declared": "t_st_0_1", 
+                                "type_primitive": "struct st_0_1", 
+                                "value": {
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08", 
+                                        "address": "0x0000000100402024", 
+                                        "size": 1, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint08", 
+                                        "type_primitive": "unsigned char", 
+                                        "value": 1, 
+                                        "dump": {
+                                            "0x0000000100402024": "0x50"
+                                        }, 
+                                        "bitpos": 4, 
+                                        "bitsize": 1
+                                    }, 
+                                    "sym2_t_uint08": {
+                                        "identifier": "sym2_t_uint08", 
+                                        "address": "0x0000000100402024", 
+                                        "size": 1, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint08", 
+                                        "type_primitive": "unsigned char", 
+                                        "value": 0, 
+                                        "dump": {
+                                            "0x0000000100402024": "0x50"
+                                        }, 
+                                        "bitpos": 5, 
+                                        "bitsize": 1
+                                    }, 
+                                    "sym3_t_uint08": {
+                                        "identifier": "sym3_t_uint08", 
+                                        "address": "0x0000000100402024", 
+                                        "size": 1, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint08", 
+                                        "type_primitive": "unsigned char", 
+                                        "value": 1, 
+                                        "dump": {
+                                            "0x0000000100402024": "0x50"
+                                        }, 
+                                        "bitpos": 6, 
+                                        "bitsize": 1
+                                    }
+                                }, 
+                                "dump": {
+                                    "0x0000000100402024": "0x50"
+                                }
+                            }, 
+                            {
+                                "identifier": 1, 
+                                "address": "0x0000000100402025", 
+                                "size": 1, 
+                                "type_code": 3, 
+                                "type_declared": "t_st_0_1", 
+                                "type_primitive": "struct st_0_1", 
+                                "value": {
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08", 
+                                        "address": "0x0000000100402025", 
+                                        "size": 1, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint08", 
+                                        "type_primitive": "unsigned char", 
+                                        "value": 0, 
+                                        "dump": {
+                                            "0x0000000100402025": "0x20"
+                                        }, 
+                                        "bitpos": 4, 
+                                        "bitsize": 1
+                                    }, 
+                                    "sym2_t_uint08": {
+                                        "identifier": "sym2_t_uint08", 
+                                        "address": "0x0000000100402025", 
+                                        "size": 1, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint08", 
+                                        "type_primitive": "unsigned char", 
+                                        "value": 1, 
+                                        "dump": {
+                                            "0x0000000100402025": "0x20"
+                                        }, 
+                                        "bitpos": 5, 
+                                        "bitsize": 1
+                                    }, 
+                                    "sym3_t_uint08": {
+                                        "identifier": "sym3_t_uint08", 
+                                        "address": "0x0000000100402025", 
+                                        "size": 1, 
+                                        "type_code": 8, 
+                                        "type_declared": "t_uint08", 
+                                        "type_primitive": "unsigned char", 
+                                        "value": 0, 
+                                        "dump": {
+                                            "0x0000000100402025": "0x20"
+                                        }, 
+                                        "bitpos": 6, 
+                                        "bitsize": 1
+                                    }
+                                }, 
+                                "dump": {
+                                    "0x0000000100402025": "0x20"
+                                }
+                            }
+                        ], 
+                        "dump": {
+                            "0x0000000100402024": "0x50", 
+                            "0x0000000100402025": "0x20"
+                        }, 
+                        "bitpos": 0, 
+                        "bitsize": 16
+                    }
+                }, 
+                "dump": {
+                    "0x000000010040201c": "0xf0", 
+                    "0x000000010040201d": "0x0f", 
+                    "0x000000010040201e": "0x0f", 
+                    "0x000000010040201f": "0xf0", 
+                    "0x0000000100402020": "0x0f", 
+                    "0x0000000100402021": "0x0f", 
+                    "0x0000000100402022": "0x0f", 
+                    "0x0000000100402023": "0x0f", 
+                    "0x0000000100402024": "0x50", 
+                    "0x0000000100402025": "0x20", 
+                    "0x0000000100402026": "0x00", 
+                    "0x0000000100402027": "0x00"
+                }
+            }
+        ], 
+        "dump": {
+            "0x0000000100402010": "0xf0", 
+            "0x0000000100402011": "0x0f", 
+            "0x0000000100402012": "0x0f", 
+            "0x0000000100402013": "0xf0", 
+            "0x0000000100402014": "0x0f", 
+            "0x0000000100402015": "0x0f", 
+            "0x0000000100402016": "0x0f", 
+            "0x0000000100402017": "0x0f", 
+            "0x0000000100402018": "0x50", 
+            "0x0000000100402019": "0x20", 
+            "0x000000010040201a": "0x00", 
+            "0x000000010040201b": "0x00", 
+            "0x000000010040201c": "0xf0", 
+            "0x000000010040201d": "0x0f", 
+            "0x000000010040201e": "0x0f", 
+            "0x000000010040201f": "0xf0", 
+            "0x0000000100402020": "0x0f", 
+            "0x0000000100402021": "0x0f", 
+            "0x0000000100402022": "0x0f", 
+            "0x0000000100402023": "0x0f", 
+            "0x0000000100402024": "0x50", 
+            "0x0000000100402025": "0x20", 
+            "0x0000000100402026": "0x00", 
+            "0x0000000100402027": "0x00"
+        }
+    }
+}
