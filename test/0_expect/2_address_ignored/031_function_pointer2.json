@@ -1,0 +1,39 @@
+{
+    "funcp": {
+        "identifier": "funcp",
+        "address": "ADR_ID_0000",
+        "size": 8,
+        "type_code": 1,
+        "type_declared": "void (*)()",
+        "type_primitive": "void (*)()",
+        "value": "ADR_ID_0008",
+        "dump": {
+            "ADR_ID_0000": "0x80",
+            "ADR_ID_0001": "0x10",
+            "ADR_ID_0002": "0x40",
+            "ADR_ID_0003": "0x00",
+            "ADR_ID_0004": "0x01",
+            "ADR_ID_0005": "0x00",
+            "ADR_ID_0006": "0x00",
+            "ADR_ID_0007": "0x00"
+        }
+    },
+    "func_void": {
+        "identifier": "func_void",
+        "address": "ADR_ID_0008",
+        "size": 8,
+        "type_code": 7,
+        "type_declared": "void (void)",
+        "type_primitive": "void (void)",
+        "dump": {
+            "ADR_ID_0008": "0x55",
+            "ADR_ID_0009": "0x48",
+            "ADR_ID_000A": "0x89",
+            "ADR_ID_000B": "0xe5",
+            "ADR_ID_000C": "0x90",
+            "ADR_ID_000D": "0x5d",
+            "ADR_ID_000E": "0xc3",
+            "ADR_ID_000F": "0x55"
+        }
+    }
+}

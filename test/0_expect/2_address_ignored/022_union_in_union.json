@@ -1,0 +1,160 @@
+{
+    "c": {
+        "identifier": "c",
+        "address": "ADR_ID_0000",
+        "size": 2,
+        "type_code": 4,
+        "type_declared": "const volatile size16",
+        "type_primitive": "size16",
+        "value": {
+            "i16": {
+                "identifier": "i16",
+                "address": "ADR_ID_0000",
+                "size": 2,
+                "type_code": 4,
+                "type_declared": "int16",
+                "type_primitive": "int16",
+                "value": {
+                    "uint16": {
+                        "identifier": "uint16",
+                        "address": "ADR_ID_0000",
+                        "size": 2,
+                        "type_code": 8,
+                        "type_declared": "short unsigned int",
+                        "type_primitive": "short unsigned int",
+                        "value": 255,
+                        "dump": {
+                            "ADR_ID_0000": "0xff",
+                            "ADR_ID_0001": "0x00"
+                        },
+                        "bitpos": 0,
+                        "bitsize": 16
+                    },
+                    "sint16": {
+                        "identifier": "sint16",
+                        "address": "ADR_ID_0000",
+                        "size": 2,
+                        "type_code": 8,
+                        "type_declared": "short int",
+                        "type_primitive": "short int",
+                        "value": 255,
+                        "dump": {
+                            "ADR_ID_0000": "0xff",
+                            "ADR_ID_0001": "0x00"
+                        },
+                        "bitpos": 0,
+                        "bitsize": 16
+                    }
+                },
+                "dump": {
+                    "ADR_ID_0000": "0xff",
+                    "ADR_ID_0001": "0x00"
+                },
+                "bitpos": 0,
+                "bitsize": 16
+            },
+            "i8_array": {
+                "identifier": "i8_array",
+                "address": "ADR_ID_0000",
+                "size": 2,
+                "type_code": 2,
+                "type_declared": "int8 [2]",
+                "type_primitive": "int8 [2]",
+                "value": [
+                    {
+                        "identifier": 0,
+                        "address": "ADR_ID_0000",
+                        "size": 1,
+                        "type_code": 4,
+                        "type_declared": "int8",
+                        "type_primitive": "int8",
+                        "value": {
+                            "uint8": {
+                                "identifier": "uint8",
+                                "address": "ADR_ID_0000",
+                                "size": 1,
+                                "type_code": 8,
+                                "type_declared": "unsigned char",
+                                "type_primitive": "unsigned char",
+                                "value": 255,
+                                "dump": {
+                                    "ADR_ID_0000": "0xff"
+                                },
+                                "bitpos": 0,
+                                "bitsize": 8
+                            },
+                            "sint8": {
+                                "identifier": "sint8",
+                                "address": "ADR_ID_0000",
+                                "size": 1,
+                                "type_code": 8,
+                                "type_declared": "char",
+                                "type_primitive": "char",
+                                "value": -1,
+                                "dump": {
+                                    "ADR_ID_0000": "0xff"
+                                },
+                                "bitpos": 0,
+                                "bitsize": 8
+                            }
+                        },
+                        "dump": {
+                            "ADR_ID_0000": "0xff"
+                        }
+                    },
+                    {
+                        "identifier": 1,
+                        "address": "ADR_ID_0001",
+                        "size": 1,
+                        "type_code": 4,
+                        "type_declared": "int8",
+                        "type_primitive": "int8",
+                        "value": {
+                            "uint8": {
+                                "identifier": "uint8",
+                                "address": "ADR_ID_0001",
+                                "size": 1,
+                                "type_code": 8,
+                                "type_declared": "unsigned char",
+                                "type_primitive": "unsigned char",
+                                "value": 0,
+                                "dump": {
+                                    "ADR_ID_0001": "0x00"
+                                },
+                                "bitpos": 0,
+                                "bitsize": 8
+                            },
+                            "sint8": {
+                                "identifier": "sint8",
+                                "address": "ADR_ID_0001",
+                                "size": 1,
+                                "type_code": 8,
+                                "type_declared": "char",
+                                "type_primitive": "char",
+                                "value": 0,
+                                "dump": {
+                                    "ADR_ID_0001": "0x00"
+                                },
+                                "bitpos": 0,
+                                "bitsize": 8
+                            }
+                        },
+                        "dump": {
+                            "ADR_ID_0001": "0x00"
+                        }
+                    }
+                ],
+                "dump": {
+                    "ADR_ID_0000": "0xff",
+                    "ADR_ID_0001": "0x00"
+                },
+                "bitpos": 0,
+                "bitsize": 16
+            }
+        },
+        "dump": {
+            "ADR_ID_0000": "0xff",
+            "ADR_ID_0001": "0x00"
+        }
+    }
+}

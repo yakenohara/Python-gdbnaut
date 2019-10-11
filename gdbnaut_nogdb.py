@@ -24,6 +24,9 @@ GDB utility module
 """
 
 import json
+import sys
+import inspect
+import collections
 
 class gdb:
     TYPE_CODE_PTR                  =  1
@@ -58,7 +61,15 @@ class SymbolInfo:
 
     # < completely same as gdbnaut.py >-----------------------------------------------------------------------------------------
     
-    def _func_convert_to_list(self, target):
+    def _func_convert_to_list(self, target, str_arg_name):
+        """
+        指定オブジェクトを str list に変換する  
+        変換不可能な場合は、 None を返す
+        """
+        
+        if (target is None): # None は None のまま返す
+            return None
+
         str_target_arr = []
         if (isinstance(target, tuple)) :
             target = list(target) # list に変更
@@ -66,22 +77,45 @@ class SymbolInfo:
         if (isinstance(target, list)) :
             for elem in target:
                 if isinstance(elem, str):
-                    if (elem in str_target_arr): # シンボル名の重複指定の場合
-                        #todo warn
-                        pass
+                    if (len(elem) == 0): # 空文字列の場合
+                        print(
+                            "[warning] Empty string was found in `" + str_arg_name + "` argment. This will be ignored."
+                        )
+
+                    elif (elem in str_target_arr): # シンボル名の重複指定の場合
+                        print(
+                            "[warning] Duplicate difinition `" + elem + "` was found in `" + str_arg_name + "` argment. This will be ignored."
+                        )
 
                     else: # シンボル名の重複指定でない場合
                         str_target_arr.append(elem)
 
                 else: # string でない場合
-                    #todo warn
-                    pass
+                    print(
+                        "[warning] Type `" + str(type(elem)) + "` (value:`" + str(elem) + "`) was specified as " + "\n" +
+                        "[warning] element of `" + str_arg_name + "` argment. This will be ignored."
+                    )
 
         elif (isinstance(target, str)) :
-            str_target_arr.append(target)
+            if (len(target) == 0): # 空文字列の場合
+                print(
+                    "[warning] An empty string cannot be specified as `" + str_arg_name + "` argment."
+                )
+                return None
+
+            else: # 空文字列でない場合
+                str_target_arr.append(target)
 
         else: # Unknown type な場合
-            #todo warn
+            print(
+                "[warning] No valid string found in `" + str_arg_name + "` argment."
+            )
+            return None
+
+        if (len(str_target_arr) == 0): #配列変換した結果、要素数が 0 の場合
+            print(
+                "[warning] No valid string found in `" + str_arg_name + "` argment."
+            )
             return None
 
         return str_target_arr
@@ -95,7 +129,7 @@ class SymbolInfo:
 
         if isinstance(node, dict):
             lst_keys = []
-            obj_to_return = {}
+            obj_to_return = collections.OrderedDict()
             for str_key, obj_one_elem in node.items():
                 lst_keys.append(str_key)
 
@@ -112,7 +146,7 @@ class SymbolInfo:
 
     def _func_scrape_copy(self, node, int_hierarchy_level, lst_attr, bool_scrape, bool_dump_only_1stL, bool_sort):
 
-        obj_scraping = {}
+        obj_scraping = collections.OrderedDict()
 
         lst_keys = []
         for str_key, obj_val in node.items():
@@ -140,7 +174,7 @@ class SymbolInfo:
                 if bool_sort:
                     lst_field_keys.sort()
 
-                obj_scraped = {}
+                obj_scraped = collections.OrderedDict()
                 for obj_field_key in lst_field_keys:
                     obj_scraped[obj_field_key] = self._func_scrape_copy(node[str_key][obj_field_key], int_hierarchy_level + 1, lst_attr, bool_scrape, bool_dump_only_1stL, bool_sort)
 
@@ -235,17 +269,18 @@ class SymbolInfo:
 
         """
 
-        scanning_result = {}
+        if (self._obj_scanned is None): # self._obj_scanned が None の場合
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] No valid scanning result." + "\n"
+            )
+            return
+        
+        scanning_result = collections.OrderedDict()
         
         # 引数チェック
-        attr = self._func_convert_to_list(attr)
-        if(attr is None):
-            #todo warn
-            pass
+        attr = self._func_convert_to_list(attr, "attr")
         
-        elif(len(attr) == 0): # シンボル名の指定が 1つもない場合
-            attr = None
-
         lst_scanned_keys = []
         for str_scanned_key, obj_scanned_val in self._obj_scanned.items():
             lst_scanned_keys.append(str_scanned_key)
@@ -271,12 +306,32 @@ class SymbolInfo:
                                    set in scanning result dictionary object.
         """
 
-        #todo callback が callable かどうかチェック(callable? inspect.isfunction?)
-        
-        #todo self._obj_scanned が None の場合
+        if (self._obj_scanned is None): # self._obj_scanned が None の場合
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] No valid scanning result." + "\n"
+            )
+            return
 
-        for obj_scanned_val in self._obj_scanned.values():
-            self._func_traverser((obj_scanned_val, ), callback)
+        # wish callback が callable かどうかチェック
+        # -> callable か、 inspect.isfunction
+        # 
+        # callback の引数定義をしらべる
+        # -> getargspec か、 inspect.signature()
+        #    getargspec は python3.X では非推奨
+        #    inspect.signature() は Python 3.3 より前のバージョンでは組み込みではない
+        #    https://blog.amedama.jp/entry/2016/10/31/225219
+
+        try:
+            for obj_scanned_val in self._obj_scanned.values():
+                self._func_traverser((obj_scanned_val, ), callback)
+
+        except Exception as e:
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] " + str(e) + "\n"
+            )
+            return
 
     def save_as(self, file_path, attr = None, scrape = False, dump_only_1stL = False, do_sort = False):
         """
@@ -304,17 +359,25 @@ class SymbolInfo:
 
         """
 
-        # 引数チェック
-        attr = self._func_convert_to_list(attr)
-        if(attr is None):
-            #todo warn
-            pass
-        
-        elif(len(attr) == 0): # シンボル名の指定が 1つもない場合
-            attr = None
+        if (self._obj_scanned is None): # self._obj_scanned が None の場合
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] No valid scanning result." + "\n"
+            )
+            return
 
-        #todo ファイルアクセスチェック
-        obj_file = open(file_path, 'w')
+        # 引数チェック
+        attr = self._func_convert_to_list(attr, "attr")
+        
+        try:
+            obj_file = open(file_path, 'w')
+
+        except Exception as e: #ファイルオープンに失敗した場合
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] " + str(e) + "\n"
+            )
+            return
 
         obj_scanned = self.info(attr = attr, scrape = scrape, dump_only_1stL = dump_only_1stL, do_sort = do_sort)
         str_scanned = json.dumps(obj_scanned, indent=4)
@@ -341,19 +404,35 @@ class SymbolInfo:
 
         """
         
-        if isinstance(scanned_result, str):
+        if isinstance(scanned_result, str): # ファイル指定の場合
             
-            #todo 開けなかった時
-            obj_file = open(scanned_result, 'r')
+            try:
+                obj_file = open(scanned_result, 'r') # -> ファイルオープン失敗の可能性
+                obj_scanned = json.load(obj_file)    # -> json parse error の可能性
+                
+                self._obj_scanned = obj_scanned
+            
+            except Exception as e:
+                insobj_curframe_b_back = inspect.currentframe().f_back
+                sys.stderr.write(
+                    "[error] " + str(e) + "\n"
+                )
+                self._obj_scanned = None
+                return
 
-            #todo dictionary に出来なかった時
-            obj_scanned = json.load(obj_file)
-            obj_file.close()
-            self._obj_scanned = obj_scanned
+            finally:
+                try:
+                    obj_file.close() # -> ファイルクローズ失敗の可能性
+                except Exception as e:
+                    pass # nothing to do
+                
 
         elif isinstance(scanned_result, dict):
             self._obj_scanned = scanned_result
 
         else:
-            #todo warn
+            insobj_curframe_b_back = inspect.currentframe().f_back
+            sys.stderr.write(
+                "[error] Unexpected type `" + str(type(scanned_result)) + "` specified.\n"
+            )
             self._obj_scanned = None

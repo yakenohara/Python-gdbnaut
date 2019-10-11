@@ -1,0 +1,44 @@
+{
+    "t": {
+        "identifier": "t",
+        "address": "ADR_ID_0000",
+        "size": 2,
+        "type_code": 3,
+        "type_declared": "const volatile st_t",
+        "type_primitive": "struct st",
+        "value": {
+            "c0": {
+                "identifier": "c0",
+                "address": "ADR_ID_0000",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "char",
+                "type_primitive": "char",
+                "value": -1,
+                "dump": {
+                    "ADR_ID_0000": "0xff"
+                },
+                "bitpos": 0,
+                "bitsize": 8
+            },
+            "c1": {
+                "identifier": "c1",
+                "address": "ADR_ID_0001",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "char",
+                "type_primitive": "char",
+                "value": 1,
+                "dump": {
+                    "ADR_ID_0001": "0x01"
+                },
+                "bitpos": 0,
+                "bitsize": 8
+            }
+        },
+        "dump": {
+            "ADR_ID_0000": "0xff",
+            "ADR_ID_0001": "0x01"
+        }
+    }
+}

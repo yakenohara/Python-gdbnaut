@@ -535,7 +535,7 @@ class SymbolInfo:
 
         return obj_scanning
 
-    # < completely same as gdbnaut.py >-----------------------------------------------------------------------------------------
+    # < completely same as gdbnaut_nogdb.py >-----------------------------------------------------------------------------------------
     
     def _func_convert_to_list(self, target, str_arg_name):
         """
@@ -861,7 +861,7 @@ class SymbolInfo:
         obj_file.write(str_scanned)
         obj_file.close()
 
-    # ----------------------------------------------------------------------------------------</ completely same as gdbnaut.py >
+    # ----------------------------------------------------------------------------------------</ completely same as gdbnaut_nogdb.py >
 
     def __init__(self, symbol):
         """

@@ -1,0 +1,684 @@
+{
+    "gsym0_t_st_0": {
+        "identifier": "gsym0_t_st_0",
+        "address": "ADR_ID_0000",
+        "size": 24,
+        "type_code": 2,
+        "type_declared": "volatile t_st_0 [2]",
+        "type_primitive": "struct st_0 [2]",
+        "value": [
+            {
+                "identifier": 0,
+                "address": "ADR_ID_0000",
+                "size": 12,
+                "type_code": 3,
+                "type_declared": "volatile t_st_0",
+                "type_primitive": "struct st_0",
+                "value": {
+                    "sym0_t_un_0_0": {
+                        "identifier": "sym0_t_un_0_0",
+                        "address": "ADR_ID_0000",
+                        "size": 4,
+                        "type_code": 2,
+                        "type_declared": "t_un_0_0 [2]",
+                        "type_primitive": "union un_0_0 [2]",
+                        "value": [
+                            {
+                                "identifier": 0,
+                                "address": "ADR_ID_0000",
+                                "size": 2,
+                                "type_code": 4,
+                                "type_declared": "t_un_0_0",
+                                "type_primitive": "union un_0_0",
+                                "value": {
+                                    "sym0_t_uint16": {
+                                        "identifier": "sym0_t_uint16",
+                                        "address": "ADR_ID_0000",
+                                        "size": 2,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint16",
+                                        "type_primitive": "short unsigned int",
+                                        "value": 4080,
+                                        "dump": {
+                                            "ADR_ID_0000": "0xf0",
+                                            "ADR_ID_0001": "0x0f"
+                                        },
+                                        "bitpos": 0,
+                                        "bitsize": 16
+                                    },
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08",
+                                        "address": "ADR_ID_0000",
+                                        "size": 2,
+                                        "type_code": 2,
+                                        "type_declared": "t_uint08 [2]",
+                                        "type_primitive": "unsigned char [2]",
+                                        "value": [
+                                            {
+                                                "identifier": 0,
+                                                "address": "ADR_ID_0000",
+                                                "size": 1,
+                                                "type_code": 8,
+                                                "type_declared": "t_uint08",
+                                                "type_primitive": "unsigned char",
+                                                "value": 240,
+                                                "dump": {
+                                                    "ADR_ID_0000": "0xf0"
+                                                }
+                                            },
+                                            {
+                                                "identifier": 1,
+                                                "address": "ADR_ID_0001",
+                                                "size": 1,
+                                                "type_code": 8,
+                                                "type_declared": "t_uint08",
+                                                "type_primitive": "unsigned char",
+                                                "value": 15,
+                                                "dump": {
+                                                    "ADR_ID_0001": "0x0f"
+                                                }
+                                            }
+                                        ],
+                                        "dump": {
+                                            "ADR_ID_0000": "0xf0",
+                                            "ADR_ID_0001": "0x0f"
+                                        },
+                                        "bitpos": 0,
+                                        "bitsize": 16
+                                    }
+                                },
+                                "dump": {
+                                    "ADR_ID_0000": "0xf0",
+                                    "ADR_ID_0001": "0x0f"
+                                }
+                            },
+                            {
+                                "identifier": 1,
+                                "address": "ADR_ID_0002",
+                                "size": 2,
+                                "type_code": 4,
+                                "type_declared": "t_un_0_0",
+                                "type_primitive": "union un_0_0",
+                                "value": {
+                                    "sym0_t_uint16": {
+                                        "identifier": "sym0_t_uint16",
+                                        "address": "ADR_ID_0002",
+                                        "size": 2,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint16",
+                                        "type_primitive": "short unsigned int",
+                                        "value": 61455,
+                                        "dump": {
+                                            "ADR_ID_0002": "0x0f",
+                                            "ADR_ID_0003": "0xf0"
+                                        },
+                                        "bitpos": 0,
+                                        "bitsize": 16
+                                    },
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08",
+                                        "address": "ADR_ID_0002",
+                                        "size": 2,
+                                        "type_code": 2,
+                                        "type_declared": "t_uint08 [2]",
+                                        "type_primitive": "unsigned char [2]",
+                                        "value": [
+                                            {
+                                                "identifier": 0,
+                                                "address": "ADR_ID_0002",
+                                                "size": 1,
+                                                "type_code": 8,
+                                                "type_declared": "t_uint08",
+                                                "type_primitive": "unsigned char",
+                                                "value": 15,
+                                                "dump": {
+                                                    "ADR_ID_0002": "0x0f"
+                                                }
+                                            },
+                                            {
+                                                "identifier": 1,
+                                                "address": "ADR_ID_0003",
+                                                "size": 1,
+                                                "type_code": 8,
+                                                "type_declared": "t_uint08",
+                                                "type_primitive": "unsigned char",
+                                                "value": 240,
+                                                "dump": {
+                                                    "ADR_ID_0003": "0xf0"
+                                                }
+                                            }
+                                        ],
+                                        "dump": {
+                                            "ADR_ID_0002": "0x0f",
+                                            "ADR_ID_0003": "0xf0"
+                                        },
+                                        "bitpos": 0,
+                                        "bitsize": 16
+                                    }
+                                },
+                                "dump": {
+                                    "ADR_ID_0002": "0x0f",
+                                    "ADR_ID_0003": "0xf0"
+                                }
+                            }
+                        ],
+                        "dump": {
+                            "ADR_ID_0000": "0xf0",
+                            "ADR_ID_0001": "0x0f",
+                            "ADR_ID_0002": "0x0f",
+                            "ADR_ID_0003": "0xf0"
+                        },
+                        "bitpos": 0,
+                        "bitsize": 32
+                    },
+                    "sym1_t_uint32": {
+                        "identifier": "sym1_t_uint32",
+                        "address": "ADR_ID_0004",
+                        "size": 4,
+                        "type_code": 8,
+                        "type_declared": "t_uint32",
+                        "type_primitive": "unsigned int",
+                        "value": 252645135,
+                        "dump": {
+                            "ADR_ID_0004": "0x0f",
+                            "ADR_ID_0005": "0x0f",
+                            "ADR_ID_0006": "0x0f",
+                            "ADR_ID_0007": "0x0f"
+                        },
+                        "bitpos": 0,
+                        "bitsize": 32
+                    },
+                    "sym2_t_st_0_1": {
+                        "identifier": "sym2_t_st_0_1",
+                        "address": "ADR_ID_0008",
+                        "size": 2,
+                        "type_code": 2,
+                        "type_declared": "t_st_0_1 [2]",
+                        "type_primitive": "struct st_0_1 [2]",
+                        "value": [
+                            {
+                                "identifier": 0,
+                                "address": "ADR_ID_0008",
+                                "size": 1,
+                                "type_code": 3,
+                                "type_declared": "t_st_0_1",
+                                "type_primitive": "struct st_0_1",
+                                "value": {
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08",
+                                        "address": "ADR_ID_0008",
+                                        "size": 1,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint08",
+                                        "type_primitive": "unsigned char",
+                                        "value": 1,
+                                        "dump": {
+                                            "ADR_ID_0008": "0x50"
+                                        },
+                                        "bitpos": 4,
+                                        "bitsize": 1
+                                    },
+                                    "sym2_t_uint08": {
+                                        "identifier": "sym2_t_uint08",
+                                        "address": "ADR_ID_0008",
+                                        "size": 1,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint08",
+                                        "type_primitive": "unsigned char",
+                                        "value": 0,
+                                        "dump": {
+                                            "ADR_ID_0008": "0x50"
+                                        },
+                                        "bitpos": 5,
+                                        "bitsize": 1
+                                    },
+                                    "sym3_t_uint08": {
+                                        "identifier": "sym3_t_uint08",
+                                        "address": "ADR_ID_0008",
+                                        "size": 1,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint08",
+                                        "type_primitive": "unsigned char",
+                                        "value": 1,
+                                        "dump": {
+                                            "ADR_ID_0008": "0x50"
+                                        },
+                                        "bitpos": 6,
+                                        "bitsize": 1
+                                    }
+                                },
+                                "dump": {
+                                    "ADR_ID_0008": "0x50"
+                                }
+                            },
+                            {
+                                "identifier": 1,
+                                "address": "ADR_ID_0009",
+                                "size": 1,
+                                "type_code": 3,
+                                "type_declared": "t_st_0_1",
+                                "type_primitive": "struct st_0_1",
+                                "value": {
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08",
+                                        "address": "ADR_ID_0009",
+                                        "size": 1,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint08",
+                                        "type_primitive": "unsigned char",
+                                        "value": 0,
+                                        "dump": {
+                                            "ADR_ID_0009": "0x20"
+                                        },
+                                        "bitpos": 4,
+                                        "bitsize": 1
+                                    },
+                                    "sym2_t_uint08": {
+                                        "identifier": "sym2_t_uint08",
+                                        "address": "ADR_ID_0009",
+                                        "size": 1,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint08",
+                                        "type_primitive": "unsigned char",
+                                        "value": 1,
+                                        "dump": {
+                                            "ADR_ID_0009": "0x20"
+                                        },
+                                        "bitpos": 5,
+                                        "bitsize": 1
+                                    },
+                                    "sym3_t_uint08": {
+                                        "identifier": "sym3_t_uint08",
+                                        "address": "ADR_ID_0009",
+                                        "size": 1,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint08",
+                                        "type_primitive": "unsigned char",
+                                        "value": 0,
+                                        "dump": {
+                                            "ADR_ID_0009": "0x20"
+                                        },
+                                        "bitpos": 6,
+                                        "bitsize": 1
+                                    }
+                                },
+                                "dump": {
+                                    "ADR_ID_0009": "0x20"
+                                }
+                            }
+                        ],
+                        "dump": {
+                            "ADR_ID_0008": "0x50",
+                            "ADR_ID_0009": "0x20"
+                        },
+                        "bitpos": 0,
+                        "bitsize": 16
+                    }
+                },
+                "dump": {
+                    "ADR_ID_0000": "0xf0",
+                    "ADR_ID_0001": "0x0f",
+                    "ADR_ID_0002": "0x0f",
+                    "ADR_ID_0003": "0xf0",
+                    "ADR_ID_0004": "0x0f",
+                    "ADR_ID_0005": "0x0f",
+                    "ADR_ID_0006": "0x0f",
+                    "ADR_ID_0007": "0x0f",
+                    "ADR_ID_0008": "0x50",
+                    "ADR_ID_0009": "0x20",
+                    "ADR_ID_000A": "0x00",
+                    "ADR_ID_000B": "0x00"
+                }
+            },
+            {
+                "identifier": 1,
+                "address": "ADR_ID_000C",
+                "size": 12,
+                "type_code": 3,
+                "type_declared": "volatile t_st_0",
+                "type_primitive": "struct st_0",
+                "value": {
+                    "sym0_t_un_0_0": {
+                        "identifier": "sym0_t_un_0_0",
+                        "address": "ADR_ID_000C",
+                        "size": 4,
+                        "type_code": 2,
+                        "type_declared": "t_un_0_0 [2]",
+                        "type_primitive": "union un_0_0 [2]",
+                        "value": [
+                            {
+                                "identifier": 0,
+                                "address": "ADR_ID_000C",
+                                "size": 2,
+                                "type_code": 4,
+                                "type_declared": "t_un_0_0",
+                                "type_primitive": "union un_0_0",
+                                "value": {
+                                    "sym0_t_uint16": {
+                                        "identifier": "sym0_t_uint16",
+                                        "address": "ADR_ID_000C",
+                                        "size": 2,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint16",
+                                        "type_primitive": "short unsigned int",
+                                        "value": 4080,
+                                        "dump": {
+                                            "ADR_ID_000C": "0xf0",
+                                            "ADR_ID_000D": "0x0f"
+                                        },
+                                        "bitpos": 0,
+                                        "bitsize": 16
+                                    },
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08",
+                                        "address": "ADR_ID_000C",
+                                        "size": 2,
+                                        "type_code": 2,
+                                        "type_declared": "t_uint08 [2]",
+                                        "type_primitive": "unsigned char [2]",
+                                        "value": [
+                                            {
+                                                "identifier": 0,
+                                                "address": "ADR_ID_000C",
+                                                "size": 1,
+                                                "type_code": 8,
+                                                "type_declared": "t_uint08",
+                                                "type_primitive": "unsigned char",
+                                                "value": 240,
+                                                "dump": {
+                                                    "ADR_ID_000C": "0xf0"
+                                                }
+                                            },
+                                            {
+                                                "identifier": 1,
+                                                "address": "ADR_ID_000D",
+                                                "size": 1,
+                                                "type_code": 8,
+                                                "type_declared": "t_uint08",
+                                                "type_primitive": "unsigned char",
+                                                "value": 15,
+                                                "dump": {
+                                                    "ADR_ID_000D": "0x0f"
+                                                }
+                                            }
+                                        ],
+                                        "dump": {
+                                            "ADR_ID_000C": "0xf0",
+                                            "ADR_ID_000D": "0x0f"
+                                        },
+                                        "bitpos": 0,
+                                        "bitsize": 16
+                                    }
+                                },
+                                "dump": {
+                                    "ADR_ID_000C": "0xf0",
+                                    "ADR_ID_000D": "0x0f"
+                                }
+                            },
+                            {
+                                "identifier": 1,
+                                "address": "ADR_ID_000E",
+                                "size": 2,
+                                "type_code": 4,
+                                "type_declared": "t_un_0_0",
+                                "type_primitive": "union un_0_0",
+                                "value": {
+                                    "sym0_t_uint16": {
+                                        "identifier": "sym0_t_uint16",
+                                        "address": "ADR_ID_000E",
+                                        "size": 2,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint16",
+                                        "type_primitive": "short unsigned int",
+                                        "value": 61455,
+                                        "dump": {
+                                            "ADR_ID_000E": "0x0f",
+                                            "ADR_ID_000F": "0xf0"
+                                        },
+                                        "bitpos": 0,
+                                        "bitsize": 16
+                                    },
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08",
+                                        "address": "ADR_ID_000E",
+                                        "size": 2,
+                                        "type_code": 2,
+                                        "type_declared": "t_uint08 [2]",
+                                        "type_primitive": "unsigned char [2]",
+                                        "value": [
+                                            {
+                                                "identifier": 0,
+                                                "address": "ADR_ID_000E",
+                                                "size": 1,
+                                                "type_code": 8,
+                                                "type_declared": "t_uint08",
+                                                "type_primitive": "unsigned char",
+                                                "value": 15,
+                                                "dump": {
+                                                    "ADR_ID_000E": "0x0f"
+                                                }
+                                            },
+                                            {
+                                                "identifier": 1,
+                                                "address": "ADR_ID_000F",
+                                                "size": 1,
+                                                "type_code": 8,
+                                                "type_declared": "t_uint08",
+                                                "type_primitive": "unsigned char",
+                                                "value": 240,
+                                                "dump": {
+                                                    "ADR_ID_000F": "0xf0"
+                                                }
+                                            }
+                                        ],
+                                        "dump": {
+                                            "ADR_ID_000E": "0x0f",
+                                            "ADR_ID_000F": "0xf0"
+                                        },
+                                        "bitpos": 0,
+                                        "bitsize": 16
+                                    }
+                                },
+                                "dump": {
+                                    "ADR_ID_000E": "0x0f",
+                                    "ADR_ID_000F": "0xf0"
+                                }
+                            }
+                        ],
+                        "dump": {
+                            "ADR_ID_000C": "0xf0",
+                            "ADR_ID_000D": "0x0f",
+                            "ADR_ID_000E": "0x0f",
+                            "ADR_ID_000F": "0xf0"
+                        },
+                        "bitpos": 0,
+                        "bitsize": 32
+                    },
+                    "sym1_t_uint32": {
+                        "identifier": "sym1_t_uint32",
+                        "address": "ADR_ID_0010",
+                        "size": 4,
+                        "type_code": 8,
+                        "type_declared": "t_uint32",
+                        "type_primitive": "unsigned int",
+                        "value": 252645135,
+                        "dump": {
+                            "ADR_ID_0010": "0x0f",
+                            "ADR_ID_0011": "0x0f",
+                            "ADR_ID_0012": "0x0f",
+                            "ADR_ID_0013": "0x0f"
+                        },
+                        "bitpos": 0,
+                        "bitsize": 32
+                    },
+                    "sym2_t_st_0_1": {
+                        "identifier": "sym2_t_st_0_1",
+                        "address": "ADR_ID_0014",
+                        "size": 2,
+                        "type_code": 2,
+                        "type_declared": "t_st_0_1 [2]",
+                        "type_primitive": "struct st_0_1 [2]",
+                        "value": [
+                            {
+                                "identifier": 0,
+                                "address": "ADR_ID_0014",
+                                "size": 1,
+                                "type_code": 3,
+                                "type_declared": "t_st_0_1",
+                                "type_primitive": "struct st_0_1",
+                                "value": {
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08",
+                                        "address": "ADR_ID_0014",
+                                        "size": 1,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint08",
+                                        "type_primitive": "unsigned char",
+                                        "value": 1,
+                                        "dump": {
+                                            "ADR_ID_0014": "0x50"
+                                        },
+                                        "bitpos": 4,
+                                        "bitsize": 1
+                                    },
+                                    "sym2_t_uint08": {
+                                        "identifier": "sym2_t_uint08",
+                                        "address": "ADR_ID_0014",
+                                        "size": 1,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint08",
+                                        "type_primitive": "unsigned char",
+                                        "value": 0,
+                                        "dump": {
+                                            "ADR_ID_0014": "0x50"
+                                        },
+                                        "bitpos": 5,
+                                        "bitsize": 1
+                                    },
+                                    "sym3_t_uint08": {
+                                        "identifier": "sym3_t_uint08",
+                                        "address": "ADR_ID_0014",
+                                        "size": 1,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint08",
+                                        "type_primitive": "unsigned char",
+                                        "value": 1,
+                                        "dump": {
+                                            "ADR_ID_0014": "0x50"
+                                        },
+                                        "bitpos": 6,
+                                        "bitsize": 1
+                                    }
+                                },
+                                "dump": {
+                                    "ADR_ID_0014": "0x50"
+                                }
+                            },
+                            {
+                                "identifier": 1,
+                                "address": "ADR_ID_0015",
+                                "size": 1,
+                                "type_code": 3,
+                                "type_declared": "t_st_0_1",
+                                "type_primitive": "struct st_0_1",
+                                "value": {
+                                    "sym1_t_uint08": {
+                                        "identifier": "sym1_t_uint08",
+                                        "address": "ADR_ID_0015",
+                                        "size": 1,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint08",
+                                        "type_primitive": "unsigned char",
+                                        "value": 0,
+                                        "dump": {
+                                            "ADR_ID_0015": "0x20"
+                                        },
+                                        "bitpos": 4,
+                                        "bitsize": 1
+                                    },
+                                    "sym2_t_uint08": {
+                                        "identifier": "sym2_t_uint08",
+                                        "address": "ADR_ID_0015",
+                                        "size": 1,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint08",
+                                        "type_primitive": "unsigned char",
+                                        "value": 1,
+                                        "dump": {
+                                            "ADR_ID_0015": "0x20"
+                                        },
+                                        "bitpos": 5,
+                                        "bitsize": 1
+                                    },
+                                    "sym3_t_uint08": {
+                                        "identifier": "sym3_t_uint08",
+                                        "address": "ADR_ID_0015",
+                                        "size": 1,
+                                        "type_code": 8,
+                                        "type_declared": "t_uint08",
+                                        "type_primitive": "unsigned char",
+                                        "value": 0,
+                                        "dump": {
+                                            "ADR_ID_0015": "0x20"
+                                        },
+                                        "bitpos": 6,
+                                        "bitsize": 1
+                                    }
+                                },
+                                "dump": {
+                                    "ADR_ID_0015": "0x20"
+                                }
+                            }
+                        ],
+                        "dump": {
+                            "ADR_ID_0014": "0x50",
+                            "ADR_ID_0015": "0x20"
+                        },
+                        "bitpos": 0,
+                        "bitsize": 16
+                    }
+                },
+                "dump": {
+                    "ADR_ID_000C": "0xf0",
+                    "ADR_ID_000D": "0x0f",
+                    "ADR_ID_000E": "0x0f",
+                    "ADR_ID_000F": "0xf0",
+                    "ADR_ID_0010": "0x0f",
+                    "ADR_ID_0011": "0x0f",
+                    "ADR_ID_0012": "0x0f",
+                    "ADR_ID_0013": "0x0f",
+                    "ADR_ID_0014": "0x50",
+                    "ADR_ID_0015": "0x20",
+                    "ADR_ID_0016": "0x00",
+                    "ADR_ID_0017": "0x00"
+                }
+            }
+        ],
+        "dump": {
+            "ADR_ID_0000": "0xf0",
+            "ADR_ID_0001": "0x0f",
+            "ADR_ID_0002": "0x0f",
+            "ADR_ID_0003": "0xf0",
+            "ADR_ID_0004": "0x0f",
+            "ADR_ID_0005": "0x0f",
+            "ADR_ID_0006": "0x0f",
+            "ADR_ID_0007": "0x0f",
+            "ADR_ID_0008": "0x50",
+            "ADR_ID_0009": "0x20",
+            "ADR_ID_000A": "0x00",
+            "ADR_ID_000B": "0x00",
+            "ADR_ID_000C": "0xf0",
+            "ADR_ID_000D": "0x0f",
+            "ADR_ID_000E": "0x0f",
+            "ADR_ID_000F": "0xf0",
+            "ADR_ID_0010": "0x0f",
+            "ADR_ID_0011": "0x0f",
+            "ADR_ID_0012": "0x0f",
+            "ADR_ID_0013": "0x0f",
+            "ADR_ID_0014": "0x50",
+            "ADR_ID_0015": "0x20",
+            "ADR_ID_0016": "0x00",
+            "ADR_ID_0017": "0x00"
+        }
+    }
+}

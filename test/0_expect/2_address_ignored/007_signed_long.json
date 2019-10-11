@@ -1,0 +1,21 @@
+{
+    "gi": {
+        "identifier": "gi",
+        "address": "ADR_ID_0000",
+        "size": 8,
+        "type_code": 8,
+        "type_declared": "const volatile sint64",
+        "type_primitive": "long int",
+        "value": -2147483649,
+        "dump": {
+            "ADR_ID_0000": "0xff",
+            "ADR_ID_0001": "0xff",
+            "ADR_ID_0002": "0xff",
+            "ADR_ID_0003": "0x7f",
+            "ADR_ID_0004": "0xff",
+            "ADR_ID_0005": "0xff",
+            "ADR_ID_0006": "0xff",
+            "ADR_ID_0007": "0xff"
+        }
+    }
+}

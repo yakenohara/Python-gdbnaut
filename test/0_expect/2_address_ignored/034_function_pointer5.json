@@ -1,0 +1,55 @@
+{
+    "funcp": {
+        "identifier": "funcp",
+        "address": "ADR_ID_0000",
+        "size": 8,
+        "type_code": 1,
+        "type_declared": "int (*)(int, char)",
+        "type_primitive": "int (*)(int, char)",
+        "value": "ADR_ID_0008",
+        "dump": {
+            "ADR_ID_0000": "0x80",
+            "ADR_ID_0001": "0x10",
+            "ADR_ID_0002": "0x40",
+            "ADR_ID_0003": "0x00",
+            "ADR_ID_0004": "0x01",
+            "ADR_ID_0005": "0x00",
+            "ADR_ID_0006": "0x00",
+            "ADR_ID_0007": "0x00"
+        }
+    },
+    "addition": {
+        "identifier": "addition",
+        "address": "ADR_ID_0008",
+        "size": 24,
+        "type_code": 7,
+        "type_declared": "int (int, char)",
+        "type_primitive": "int (int, char)",
+        "dump": {
+            "ADR_ID_0008": "0x55",
+            "ADR_ID_0009": "0x48",
+            "ADR_ID_000A": "0x89",
+            "ADR_ID_000B": "0xe5",
+            "ADR_ID_000C": "0x89",
+            "ADR_ID_000D": "0x4d",
+            "ADR_ID_000E": "0x10",
+            "ADR_ID_000F": "0x89",
+            "ADR_ID_0010": "0xd0",
+            "ADR_ID_0011": "0x88",
+            "ADR_ID_0012": "0x45",
+            "ADR_ID_0013": "0x18",
+            "ADR_ID_0014": "0x0f",
+            "ADR_ID_0015": "0xbe",
+            "ADR_ID_0016": "0x55",
+            "ADR_ID_0017": "0x18",
+            "ADR_ID_0018": "0x8b",
+            "ADR_ID_0019": "0x45",
+            "ADR_ID_001A": "0x10",
+            "ADR_ID_001B": "0x01",
+            "ADR_ID_001C": "0xd0",
+            "ADR_ID_001D": "0x5d",
+            "ADR_ID_001E": "0xc3",
+            "ADR_ID_001F": "0x55"
+        }
+    }
+}

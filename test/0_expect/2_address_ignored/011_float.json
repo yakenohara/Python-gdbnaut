@@ -1,0 +1,17 @@
+{
+    "f": {
+        "identifier": "f",
+        "address": "ADR_ID_0000",
+        "size": 4,
+        "type_code": 9,
+        "type_declared": "const volatile float32",
+        "type_primitive": "float",
+        "value": 16777216.0,
+        "dump": {
+            "ADR_ID_0000": "0x00",
+            "ADR_ID_0001": "0x00",
+            "ADR_ID_0002": "0x80",
+            "ADR_ID_0003": "0x4b"
+        }
+    }
+}

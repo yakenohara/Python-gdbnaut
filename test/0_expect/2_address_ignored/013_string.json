@@ -1,0 +1,170 @@
+{
+    "str": {
+        "identifier": "str",
+        "address": "ADR_ID_0000",
+        "size": 12,
+        "type_code": 2,
+        "type_declared": "const volatile sint8 [12]",
+        "type_primitive": "char [12]",
+        "value": [
+            {
+                "identifier": 0,
+                "address": "ADR_ID_0000",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "const volatile sint8",
+                "type_primitive": "char",
+                "value": 104,
+                "dump": {
+                    "ADR_ID_0000": "0x68"
+                }
+            },
+            {
+                "identifier": 1,
+                "address": "ADR_ID_0001",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "const volatile sint8",
+                "type_primitive": "char",
+                "value": 101,
+                "dump": {
+                    "ADR_ID_0001": "0x65"
+                }
+            },
+            {
+                "identifier": 2,
+                "address": "ADR_ID_0002",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "const volatile sint8",
+                "type_primitive": "char",
+                "value": 108,
+                "dump": {
+                    "ADR_ID_0002": "0x6c"
+                }
+            },
+            {
+                "identifier": 3,
+                "address": "ADR_ID_0003",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "const volatile sint8",
+                "type_primitive": "char",
+                "value": 108,
+                "dump": {
+                    "ADR_ID_0003": "0x6c"
+                }
+            },
+            {
+                "identifier": 4,
+                "address": "ADR_ID_0004",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "const volatile sint8",
+                "type_primitive": "char",
+                "value": 111,
+                "dump": {
+                    "ADR_ID_0004": "0x6f"
+                }
+            },
+            {
+                "identifier": 5,
+                "address": "ADR_ID_0005",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "const volatile sint8",
+                "type_primitive": "char",
+                "value": 32,
+                "dump": {
+                    "ADR_ID_0005": "0x20"
+                }
+            },
+            {
+                "identifier": 6,
+                "address": "ADR_ID_0006",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "const volatile sint8",
+                "type_primitive": "char",
+                "value": 119,
+                "dump": {
+                    "ADR_ID_0006": "0x77"
+                }
+            },
+            {
+                "identifier": 7,
+                "address": "ADR_ID_0007",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "const volatile sint8",
+                "type_primitive": "char",
+                "value": 111,
+                "dump": {
+                    "ADR_ID_0007": "0x6f"
+                }
+            },
+            {
+                "identifier": 8,
+                "address": "ADR_ID_0008",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "const volatile sint8",
+                "type_primitive": "char",
+                "value": 114,
+                "dump": {
+                    "ADR_ID_0008": "0x72"
+                }
+            },
+            {
+                "identifier": 9,
+                "address": "ADR_ID_0009",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "const volatile sint8",
+                "type_primitive": "char",
+                "value": 108,
+                "dump": {
+                    "ADR_ID_0009": "0x6c"
+                }
+            },
+            {
+                "identifier": 10,
+                "address": "ADR_ID_000A",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "const volatile sint8",
+                "type_primitive": "char",
+                "value": 100,
+                "dump": {
+                    "ADR_ID_000A": "0x64"
+                }
+            },
+            {
+                "identifier": 11,
+                "address": "ADR_ID_000B",
+                "size": 1,
+                "type_code": 8,
+                "type_declared": "const volatile sint8",
+                "type_primitive": "char",
+                "value": 0,
+                "dump": {
+                    "ADR_ID_000B": "0x00"
+                }
+            }
+        ],
+        "dump": {
+            "ADR_ID_0000": "0x68",
+            "ADR_ID_0001": "0x65",
+            "ADR_ID_0002": "0x6c",
+            "ADR_ID_0003": "0x6c",
+            "ADR_ID_0004": "0x6f",
+            "ADR_ID_0005": "0x20",
+            "ADR_ID_0006": "0x77",
+            "ADR_ID_0007": "0x6f",
+            "ADR_ID_0008": "0x72",
+            "ADR_ID_0009": "0x6c",
+            "ADR_ID_000A": "0x64",
+            "ADR_ID_000B": "0x00"
+        }
+    }
+}

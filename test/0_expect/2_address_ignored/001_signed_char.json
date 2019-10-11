@@ -1,0 +1,14 @@
+{
+    "c": {
+        "identifier": "c",
+        "address": "ADR_ID_0000",
+        "size": 1,
+        "type_code": 8,
+        "type_declared": "const volatile sint8",
+        "type_primitive": "char",
+        "value": 97,
+        "dump": {
+            "ADR_ID_0000": "0x61"
+        }
+    }
+}

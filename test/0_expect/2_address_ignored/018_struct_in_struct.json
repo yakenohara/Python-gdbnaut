@@ -1,0 +1,104 @@
+{
+    "ss": {
+        "identifier": "ss",
+        "address": "ADR_ID_0000",
+        "size": 12,
+        "type_code": 3,
+        "type_declared": "const volatile st_super",
+        "type_primitive": "st_super",
+        "value": {
+            "i0": {
+                "identifier": "i0",
+                "address": "ADR_ID_0000",
+                "size": 4,
+                "type_code": 8,
+                "type_declared": "int",
+                "type_primitive": "int",
+                "value": -1,
+                "dump": {
+                    "ADR_ID_0000": "0xff",
+                    "ADR_ID_0001": "0xff",
+                    "ADR_ID_0002": "0xff",
+                    "ADR_ID_0003": "0xff"
+                },
+                "bitpos": 0,
+                "bitsize": 32
+            },
+            "s": {
+                "identifier": "s",
+                "address": "ADR_ID_0004",
+                "size": 2,
+                "type_code": 3,
+                "type_declared": "st_t",
+                "type_primitive": "st_t",
+                "value": {
+                    "c0": {
+                        "identifier": "c0",
+                        "address": "ADR_ID_0004",
+                        "size": 1,
+                        "type_code": 8,
+                        "type_declared": "char",
+                        "type_primitive": "char",
+                        "value": -2,
+                        "dump": {
+                            "ADR_ID_0004": "0xfe"
+                        },
+                        "bitpos": 0,
+                        "bitsize": 8
+                    },
+                    "c1": {
+                        "identifier": "c1",
+                        "address": "ADR_ID_0005",
+                        "size": 1,
+                        "type_code": 8,
+                        "type_declared": "char",
+                        "type_primitive": "char",
+                        "value": 2,
+                        "dump": {
+                            "ADR_ID_0005": "0x02"
+                        },
+                        "bitpos": 0,
+                        "bitsize": 8
+                    }
+                },
+                "dump": {
+                    "ADR_ID_0004": "0xfe",
+                    "ADR_ID_0005": "0x02"
+                },
+                "bitpos": 0,
+                "bitsize": 16
+            },
+            "f": {
+                "identifier": "f",
+                "address": "ADR_ID_0008",
+                "size": 4,
+                "type_code": 9,
+                "type_declared": "float",
+                "type_primitive": "float",
+                "value": -0.5,
+                "dump": {
+                    "ADR_ID_0008": "0x00",
+                    "ADR_ID_0009": "0x00",
+                    "ADR_ID_000A": "0x00",
+                    "ADR_ID_000B": "0xbf"
+                },
+                "bitpos": 0,
+                "bitsize": 32
+            }
+        },
+        "dump": {
+            "ADR_ID_0000": "0xff",
+            "ADR_ID_0001": "0xff",
+            "ADR_ID_0002": "0xff",
+            "ADR_ID_0003": "0xff",
+            "ADR_ID_0004": "0xfe",
+            "ADR_ID_0005": "0x02",
+            "ADR_ID_0006": "0x00",
+            "ADR_ID_0007": "0x00",
+            "ADR_ID_0008": "0x00",
+            "ADR_ID_0009": "0x00",
+            "ADR_ID_000A": "0x00",
+            "ADR_ID_000B": "0xbf"
+        }
+    }
+}

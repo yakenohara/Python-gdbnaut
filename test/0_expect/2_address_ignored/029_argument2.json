@@ -1,0 +1,21 @@
+{
+    "argv": {
+        "identifier": "argv",
+        "address": "ADR_ID_0000",
+        "size": 8,
+        "type_code": 1,
+        "type_declared": "char **",
+        "type_primitive": "char **",
+        "value": "ADR_ID_0008",
+        "dump": {
+            "ADR_ID_0000": "0x10",
+            "ADR_ID_0001": "0xcc",
+            "ADR_ID_0002": "0xff",
+            "ADR_ID_0003": "0xff",
+            "ADR_ID_0004": "0x00",
+            "ADR_ID_0005": "0x00",
+            "ADR_ID_0006": "0x00",
+            "ADR_ID_0007": "0x00"
+        }
+    }
+}
