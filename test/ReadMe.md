@@ -1,4 +1,9 @@
+# Usage
+
 `tester.xlsm` の Test processes をひとつずつ TRUE にして実施する  
+最後のプロセス `Test tester_script_2_for_gdbnaut_nogdb.py` の項目を実施したら、  
+`\0_expect\2_address_ignored` と `\2_output_files\2_address_ignored` との差分を確認する。  
+(`\0_expect\~` が期待値。)
 
 # Tested On
 

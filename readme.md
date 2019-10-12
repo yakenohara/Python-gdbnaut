@@ -1,28 +1,47 @@
+Scan symbol(s) utility module
+
+![](assets/images/2019-10-12-13-16-33.png)
+
+# About each modules
+
+ - gdbnaut.py  
+   
+   Scan symbol(s) in GDB.  
+
+ - gdbnaut_nogdb.py  
+
+   Reuse the scanning result without GDB.  
+
 # attributes
 
-| attribute name | description |
-| :------------- | :---------- |
-| identifier     |             |
-| address        |             |
-| size           |             |
-| type_code      |             |
-| type_declared  |             |
-| type_primitive |             |
-| value          |             |
-| dump           |             |
+| attribute name | description                                                                                   |
+| :------------- | :-------------------------------------------------------------------------------------------- |
+| identifier     | Name                                                                                          |
+| address        | Memory address                                                                                |
+| size           | Byte size                                                                                     |
+| type_code      | Classification of type represented by integer                                                 |
+| type_declared  | Type declaration in source code                                                               |
+| type_primitive | Type definition which is removed const, volatile, and typedef converting from `type_declared` |
+| value          | Content of variable ※1                                                                        |
+| dump           | Memory dump igame                                                                             |
+
+
+※1  
+If the specified symbol is a variable, value is inferred from type declaration.  
+If the specified symbol is a function, this attribute is not generated.  
 
 ## special attributes for fields of struct and union 
 
-| attribute name | description |
-| :------------- | :---------- |
-| bitpos         |             |
-| bitsize        |             |
+| attribute name | description                                                                                            |
+| :------------- | :----------------------------------------------------------------------------------------------------- |
+| bitpos         | Bit position from memory address. If bit field is not defined, the value of this attribute is `0`      |
+| bitsize        | Bit size. If bit field is not defined, the value of this attribute is same as 8 times `size` attribute |
 
 ## special attributes for fields of enum
 
-| attribute name | description |
-| :------------- | :---------- |
-| enum_dict      |             |
+| attribute name | description                                         |
+| :------------- | :-------------------------------------------------- |
+| enum_dict      | Dictionary object which represents enum dectalation |
 
 # limitation
 
