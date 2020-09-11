@@ -122,6 +122,8 @@ class SymbolInfo:
 
         obj_scanning = collections.OrderedDict()
         gdbtype_specified = gdbval_specified.type
+        gdbtype_specified_unq = gdbtype_specified.unqualified() # volatile, const キーワードの削除
+        gdbtype_specified_unq_strptypdef = gdbtype_specified_unq.strip_typedefs()
 
         # array / pointer / それ以外 判定
         if (gdbtype_specified.code == gdb.TYPE_CODE_ARRAY): # array の場合
@@ -159,7 +161,10 @@ class SymbolInfo:
             
             obj_scanning["dump"] = self._func_dump_memory(int_target_address, int_size_of_array)
 
-        elif(gdbtype_specified.code == gdb.TYPE_CODE_PTR): # pointer の場合
+        elif(
+            (gdbtype_specified.code == gdb.TYPE_CODE_PTR)
+        ): # pointer の場合
+        
 
             int_target_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
             
@@ -175,6 +180,29 @@ class SymbolInfo:
 
 
             obj_scanning["dump"] = self._func_dump_memory(int_target_address, gdbtype_specified.sizeof)
+
+            self._gdbval_ptr_queue_arr.append(gdbval_specified) # pointer list に queue
+
+        elif(
+            (gdbtype_specified.code == gdb.TYPE_CODE_TYPEDEF) and
+            (gdbtype_specified_unq_strptypdef.code == gdb.TYPE_CODE_PTR)
+        ): # pointer の場合
+        
+
+            int_target_address = int(gdbval_specified.address.cast(self._gdbtyp_address_length_uint))
+            
+            obj_scanning = collections.OrderedDict()
+
+            obj_scanning["identifier"] = None # caller で設定する
+            obj_scanning["address"] = self._address_hex_format.format(int_target_address)
+            obj_scanning["size"] = gdbtype_specified_unq_strptypdef.sizeof
+            obj_scanning["type_code"] = gdbtype_specified_unq_strptypdef.code
+            obj_scanning["type_declared"] = str(gdbtype_specified)
+            obj_scanning["type_primitive"] = self._func_force_unq(str(gdbtype_specified_unq_strptypdef)) # caution <- .unqualified() してもなぜか volatile が消せないので、無理やり文字列置換で取得している
+            obj_scanning["value"] = self._address_hex_format.format(int(gdbval_specified.cast(self._gdbtyp_address_length_uint)))
+
+
+            obj_scanning["dump"] = self._func_dump_memory(int_target_address, gdbtype_specified_unq_strptypdef.sizeof)
 
             self._gdbval_ptr_queue_arr.append(gdbval_specified) # pointer list に queue
             
